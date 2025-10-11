@@ -14,7 +14,7 @@
             background-color: #111827; /* Gris oscuro casi negro */
         }
         .hero-bg {
-            background-image: linear-gradient(to top, rgba(17, 24, 39, 1) 0%, rgba(17, 24, 39, 0.6) 100%), url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=2070&auto=format&fit=crop');
+            background-image: linear-gradient(to top, rgba(17, 24, 39, 1) 0%, rgba(17, 24, 39, 0.6) 100%), url('https://images.unsplash.com/photo-1574375927938-d5a9pws-e8ffe85?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -64,16 +64,76 @@
     </header>
 
     <main class="container mx-auto px-6 py-16 md:py-24 space-y-20 md:space-y-32">
+        
+        <!-- El Equipo Section -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="section-title text-white">El Equipo</h2>
+                 <p class="mt-4 max-w-2xl mx-auto text-gray-400">Curso: Data Mining Tools - Sección 2520</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="text-center p-6 glass-effect rounded-xl">
+                    <img src="https://placehold.co/128x128/1f2937/e5e7eb?text=RR" alt="Foto de Ricardo" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-600">
+                    <h3 class="text-xl font-bold text-white">Ricardo Rafael Rivas Carrillo</h3>
+                    <p class="text-gray-400">U202215375</p>
+                </div>
+                <div class="text-center p-6 glass-effect rounded-xl">
+                    <img src="https://placehold.co/128x128/1f2937/e5e7eb?text=IS" alt="Foto de Ian" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-600">
+                    <h3 class="text-xl font-bold text-white">Ian Joaquin Sanchez Alva</h3>
+                    <p class="text-gray-400">U202124676</p>
+                </div>
+                <div class="text-center p-6 glass-effect rounded-xl">
+                     <img src="https://placehold.co/128x128/1f2937/e5e7eb?text=JP" alt="Foto de Jhamil" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-600">
+                    <h3 class="text-xl font-bold text-white">Jhamil Brijan Peña Cardenas</h3>
+                    <p class="text-gray-400">U201714492</p>
+                </div>
+            </div>
+        </section>
 
         <!-- El Problema y Nuestro Objetivo Section -->
         <section id="proyecto" class="text-center max-w-4xl mx-auto">
             <h2 class="section-title text-white">¿Cómo encontrar tu próxima serie favorita en un mar de opciones?</h2>
             <p class="mt-6 text-lg text-gray-400">
-                El crecimiento explosivo de los catálogos de streaming ha creado una paradoja: demasiadas opciones dificultan la elección. Nuestro proyecto aborda este problema construyendo un recomendador inteligente que entiende el *contenido* para hacer sugerencias verdaderamente relevantes.
+                El crecimiento explosivo de los catálogos de streaming ha creado una paradoja: demasiadas opciones dificultan la elección. Nuestro proyecto aborda este problema construyendo un recomendador inteligente que entiende el <em class="text-red-400 not-italic font-semibold">contenido</em> para hacer sugerencias verdaderamente relevantes.
             </p>
             <div class="mt-8 glass-effect rounded-xl p-6 max-w-md mx-auto">
                 <p class="text-5xl font-bold text-red-500">+80%</p>
                 <p class="mt-2 text-gray-300">de las visualizaciones en Netflix son influenciadas directamente por su sistema de recomendación.</p>
+            </div>
+        </section>
+
+        <!-- Nuestra Innovación Section -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="section-title text-white">Nuestra Innovación: Más Allá de lo Convencional</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">Mientras la mayoría de plataformas se basan en lo que otros usuarios ven, nosotros nos enfocamos en el ADN del contenido.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                <!-- Columna Enfoque Convencional -->
+                <div class="glass-effect p-8 rounded-xl border border-gray-700">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-gray-600 p-3 rounded-lg">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">El Enfoque Convencional</h3>
+                    </div>
+                    <p class="mt-4 text-gray-400"><strong class="text-gray-300">Método:</strong> Filtrado Colaborativo.</p>
+                    <p class="mt-2 text-gray-400"><strong class="text-gray-300">Lógica:</strong> "A usuarios que les gustó A, también les gustó B. Por lo tanto, te recomendamos B."</p>
+                    <p class="mt-4 text-sm text-amber-400 bg-amber-900/30 p-3 rounded-lg"><strong>Limitación:</strong> Crea "burbujas de filtro" y no funciona bien para usuarios nuevos o títulos poco conocidos (problema de arranque en frío).</p>
+                </div>
+
+                <!-- Columna Nuestra Innovación -->
+                <div class="glass-effect p-8 rounded-xl border border-red-500">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-red-600 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/><path d="M12 12h.01"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Nuestra Propuesta Semántica</h3>
+                    </div>
+                    <p class="mt-4 text-gray-400"><strong class="text-gray-300">Método:</strong> Filtrado Basado en Contenido y NLP.</p>
+                    <p class="mt-2 text-gray-400"><strong class="text-gray-300">Lógica:</strong> "Analizamos el ADN de A (trama, género, director) para encontrar B, que tiene un ADN similar."</p>
+                    <p class="mt-4 text-sm text-teal-300 bg-teal-900/30 p-3 rounded-lg"><strong>Ventaja:</strong> Descubre "joyas ocultas", ofrece recomendaciones diversas y personalizadas desde el primer día, sin depender de otros usuarios.</p>
+                </div>
             </div>
         </section>
 
@@ -107,6 +167,56 @@
             </div>
         </section>
         
+        <!-- Otros Casos de Uso en Otras Industrias Section -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="section-title text-white">Más Allá del Streaming: Aplicaciones en Otras Industrias</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">La capacidad de analizar y comparar texto semánticamente tiene un valor inmenso fuera del entretenimiento. Nuestra tecnología es la base para soluciones en múltiples sectores.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                 <!-- Caso de Uso 1: E-commerce -->
+                <div class="glass-effect p-8 rounded-xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-green-600 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">E-commerce y Retail</h3>
+                    </div>
+                    <p class="text-gray-400">Recomendar productos a clientes basándose en la similitud de sus descripciones, especificaciones y reseñas, mejorando la venta cruzada y la experiencia de compra.</p>
+                </div>
+                 <!-- Caso de Uso 2: Recursos Humanos -->
+                <div class="glass-effect p-8 rounded-xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-green-600 p-3 rounded-lg">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Gestión de Talento y RR.HH.</h3>
+                    </div>
+                    <p class="text-gray-400">Analizar miles de CVs para encontrar a los candidatos cuyas habilidades y experiencias mejor coincidan semánticamente con una descripción de puesto, optimizando el proceso de selección.</p>
+                </div>
+                 <!-- Caso de Uso 3: Academia y Legal -->
+                <div class="glass-effect p-8 rounded-xl">
+                     <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-green-600 p-3 rounded-lg">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Investigación Académica y Legal</h3>
+                    </div>
+                    <p class="text-gray-400">Ayudar a investigadores y abogados a descubrir artículos, estudios o casos legales relevantes analizando la similitud de abstracts y documentos, acelerando la investigación.</p>
+                </div>
+                 <!-- Caso de Uso 4: Soporte al Cliente -->
+                <div class="glass-effect p-8 rounded-xl">
+                     <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-green-600 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Sistemas de Soporte al Cliente</h3>
+                    </div>
+                    <p class="text-gray-400">Clasificar tickets de soporte entrantes y sugerir artículos de ayuda o soluciones de casos pasados que sean semánticamente similares al problema del usuario, mejorando los tiempos de respuesta.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Un Vistazo a los Datos Section -->
         <section>
              <div class="text-center mb-12">
@@ -123,72 +233,222 @@ s3      | TV Show | Ganglands           | Julien Leclercq | Sami Bouajila, Tracy
             </div>
         </section>
 
-        <!-- Nuestro Proceso Section -->
+        <!-- Nuestro Proceso y Modelización Section -->
         <section>
             <div class="text-center mb-12">
-                <h2 class="section-title text-white">Nuestro Proceso: De Datos a Descubrimientos</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-gray-400">Seguimos una metodología estructurada para transformar datos crudos en un modelo funcional.</p>
+                <h2 class="section-title text-white">Nuestra Propuesta de Modelización</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-gray-400">Seguimos una metodología de <em class="text-red-400 not-italic font-semibold">Content-Based Filtering</em> para transformar datos crudos en un modelo funcional.</p>
             </div>
             <!-- Visualización del Proceso -->
             <div class="max-w-6xl mx-auto">
-                <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 md:space-x-4">
-                    <!-- Step 1 -->
-                    <div class="flex-1 flex flex-col items-center text-center p-4">
-                        <div class="bg-red-600 p-4 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">1. Análisis Exploratorio</h3>
-                        <p class="text-gray-400 mt-2">Investigamos la estructura, distribución y patrones iniciales en los datos.</p>
-                    </div>
-                    <!-- Arrow -->
-                    <div class="hidden md:block text-gray-600 transform rotate-90 md:rotate-0">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </div>
-                    <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row justify-between items-start space-y-8 md:space-y-0 md:space-x-4">
+                    <!-- Step 1: Preprocesamiento -->
                     <div class="flex-1 flex flex-col items-center text-center p-4">
                         <div class="bg-red-600 p-4 rounded-full mb-4">
                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white">2. Preprocesamiento</h3>
-                        <p class="text-gray-400 mt-2">Limpiamos, normalizamos y transformamos el texto para el análisis.</p>
+                        <h3 class="text-xl font-bold text-white">1. Preprocesamiento y Limpieza</h3>
+                        <p class="text-gray-400 mt-2">Limpiamos y normalizamos los datos, preparando las variables `description` y `listed_in` para el análisis de texto.</p>
                     </div>
                     <!-- Arrow -->
-                    <div class="hidden md:block text-gray-600 transform rotate-90 md:rotate-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    <div class="hidden md:block text-gray-600 mt-16 transform rotate-90 md:rotate-0">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </div>
-                    <!-- Step 3 -->
+                    <!-- Step 2: Representación de Datos -->
                     <div class="flex-1 flex flex-col items-center text-center p-4">
                         <div class="bg-red-600 p-4 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 2a10 10 0 0 0-2 19.52c.1.2.3.2.4.1l1.5-1.1c.1-.1.2-.3.1-.4a7.9 7.9 0 0 1-2-5.52 8 8 0 0 1 16 0c0 2.2-.9 4.2-2.4 5.6l.1.1c.2.2.3.4.3.6l1.5 1.1c.1.1.3.1.4 0A10 10 0 0 0 12 2Z"/><path d="M12 11a2.5 2.5 0 0 0-2.5 2.5c0 1.5 1.2 2.5 2.5 2.5s2.5-1 2.5-2.5A2.5 2.5 0 0 0 12 11Z"/></svg>
+                           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white">3. Modelización</h3>
-                        <p class="text-gray-400 mt-2">Aplicamos TF-IDF y Similitud del Coseno para generar las recomendaciones.</p>
+                        <h3 class="text-xl font-bold text-white">2. Representación con TF-IDF</h3>
+                        <p class="text-gray-400 mt-2">Usamos la técnica TF-IDF para convertir el texto en vectores numéricos, capturando la importancia de cada palabra.</p>
+                    </div>
+                    <!-- Arrow -->
+                    <div class="hidden md:block text-gray-600 mt-16 transform rotate-90 md:rotate-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <!-- Step 3: Selección del Modelo -->
+                    <div class="flex-1 flex flex-col items-center text-center p-4">
+                        <div class="bg-red-600 p-4 rounded-full mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">3. Similitud del Coseno</h3>
+                        <p class="text-gray-400 mt-2">Aplicamos la Similitud del Coseno sobre los vectores para medir la cercanía entre títulos y encontrar las producciones con contenido más parecido.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- El Equipo Section -->
+        <!-- Propuestas Adicionales de Modelización Section -->
         <section>
             <div class="text-center mb-12">
-                <h2 class="section-title text-white">El Equipo</h2>
-                 <p class="mt-4 max-w-2xl mx-auto text-gray-400">Curso: Data Mining Tools - Sección 2520</p>
+                <h2 class="section-title text-white">Fronteras del Modelado: Propuestas Científicas Avanzadas</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">Para elevar la precisión del sistema, podemos explorar arquitecturas de NLP y Deep Learning, desde modelos fundamentales hasta los de vanguardia.</p>
             </div>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="text-center p-6 glass-effect rounded-xl">
-                    <img src="https://placehold.co/128x128/1f2937/e5e7eb?text=RR" alt="Foto de Ricardo" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-600">
-                    <h3 class="text-xl font-bold text-white">Ricardo Rafael Rivas Carrillo</h3>
-                    <p class="text-gray-400">U202215375</p>
+            <div class="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                <!-- Columna para Recomendación -->
+                <div class="space-y-8">
+                    <h3 class="text-2xl font-bold text-red-500 border-b-2 border-red-500 pb-2">Para Recomendación (Análisis de Similitud)</h3>
+                    
+                    <div class="glass-effect p-6 rounded-xl">
+                        <h4 class="font-bold text-xl text-white">Embeddings de Documentos (Doc2Vec)</h4>
+                        <p class="mt-2 text-gray-400"><strong class="text-gray-300">Arquitectura:</strong> Modelo de NLP que genera un vector por sinopsis para capturar su "esencia" temática.</p>
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                             <h5 class="font-semibold text-gray-300">Respuesta a la Pregunta de Recomendación:</h5>
+                             <ul class="list-disc list-inside text-sm text-gray-400 mt-2 space-y-1">
+                                 <li>Se entrena un modelo Doc2Vec con todas las sinopsis.</li>
+                                 <li>Se calcula la similitud del coseno entre el vector del título elegido y todos los demás.</li>
+                                 <li>Se ordenan los resultados para obtener el Top 5 de títulos más similares.</li>
+                             </ul>
+                        </div>
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-xl">
+                        <h4 class="font-bold text-xl text-white">State-of-the-Art: Sentence-Transformers</h4>
+                        <p class="mt-2 text-gray-400"><strong class="text-gray-300">Arquitectura:</strong> Modelos Transformers (<code class="bg-gray-700/50 px-1 rounded">SBERT</code>) afinados para similitud semántica de alta precisión.</p>
+                         <div class="mt-4 pt-4 border-t border-gray-700">
+                             <h5 class="font-semibold text-gray-300">Respuesta a la Pregunta de Recomendación:</h5>
+                             <ul class="list-disc list-inside text-sm text-gray-400 mt-2 space-y-1">
+                                 <li>Se vectoriza cada sinopsis con un SBERT pre-entrenado.</li>
+                                 <li>Se compara el vector del título seleccionado con el resto usando Similitud del Coseno.</li>
+                                 <li>El ranking de similitud proporciona directamente los 5 títulos más recomendados.</li>
+                             </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center p-6 glass-effect rounded-xl">
-                    <img src="https://placehold.co/128x128/1f2937/e5e7eb?text=IS" alt="Foto de Ian" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-600">
-                    <h3 class="text-xl font-bold text-white">Ian Joaquin Sanchez Alva</h3>
-                    <p class="text-gray-400">U202124676</p>
+                <!-- Columna para Clasificación -->
+                <div class="space-y-8">
+                    <h3 class="text-2xl font-bold text-red-500 border-b-2 border-red-500 pb-2">Para Clasificación de Géneros (Multietiqueta)</h3>
+                    
+                    <div class="glass-effect p-6 rounded-xl">
+                        <h4 class="font-bold text-xl text-white">Redes Neuronales Recurrentes (LSTM/GRU)</h4>
+                        <p class="mt-2 text-gray-400"><strong class="text-gray-300">Arquitectura:</strong> Redes con celdas <code class="bg-gray-700/50 px-1 rounded">LSTM</code> o <code class="bg-gray-700/50 px-1 rounded">GRU</code> que procesan texto secuencialmente.</p>
+                         <div class="mt-4 pt-4 border-t border-gray-700">
+                             <h5 class="font-semibold text-gray-300">Respuesta a la Pregunta de Clasificación:</h5>
+                             <ul class="list-disc list-inside text-sm text-gray-400 mt-2 space-y-1">
+                                 <li>Se entrena una red LSTM/GRU con las sinopsis como entrada y vectores de géneros (multietiqueta) como salida.</li>
+                                 <li>Para un nuevo título, la red procesa su sinopsis.</li>
+                                 <li>La capa final (sigmoide) da una probabilidad para cada género; se eligen los 3 más altos.</li>
+                             </ul>
+                        </div>
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-xl">
+                        <h4 class="font-bold text-xl text-white">Fine-Tuning de un Modelo Transformer</h4>
+                        <p class="mt-2 text-gray-400"><strong class="text-gray-300">Arquitectura:</strong> Utilizar un Transformer pre-entrenado (ej. <code class="bg-gray-700/50 px-1 rounded">BETO</code>) y re-entrenarlo para nuestra tarea específica.</p>
+                         <div class="mt-4 pt-4 border-t border-gray-700">
+                             <h5 class="font-semibold text-gray-300">Respuesta a la Pregunta de Clasificación:</h5>
+                             <ul class="list-disc list-inside text-sm text-gray-400 mt-2 space-y-1">
+                                 <li>Se especializa un Transformer (fine-tuning) para la clasificación multietiqueta de géneros.</li>
+                                 <li>El modelo aprende a mapear el texto complejo de la sinopsis a las etiquetas de género.</li>
+                                 <li>Al recibir una nueva sinopsis, predice las probabilidades de todos los géneros, seleccionando los 3 más probables.</li>
+                             </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center p-6 glass-effect rounded-xl">
-                     <img src="https://placehold.co/128x128/1f2937/e5e7eb?text=JP" alt="Foto de Jhamil" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-600">
-                    <h3 class="text-xl font-bold text-white">Jhamil Brijan Peña Cardenas</h3>
-                    <p class="text-gray-400">U201714492</p>
+            </div>
+        </section>
+
+        <!-- Evaluación y Optimización Section -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="section-title text-white">Evaluación y Optimización: Encontrando el Mejor Modelo</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">Para asegurar la robustez científica, definimos métricas claras para evaluar cada modelo y herramientas para optimizar su rendimiento.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                <!-- Columna Métricas -->
+                <div class="glass-effect p-8 rounded-xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-purple-600 p-3 rounded-lg">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20V16"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Métricas de Evaluación</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-purple-400">Para Recomendación:</h4>
+                            <ul class="list-disc list-inside text-gray-400 mt-2">
+                                <li><strong>Precision@k / Recall@k:</strong> Mide cuántos de los k ítems recomendados son relevantes.</li>
+                                <li><strong>MAP (Mean Average Precision):</strong> Evalúa la calidad del ranking de las recomendaciones.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-purple-400">Para Clasificación Multietiqueta:</h4>
+                             <ul class="list-disc list-inside text-gray-400 mt-2">
+                                <li><strong>F1-Score (Macro/Micro):</strong> Balance entre precisión y recall para clases desbalanceadas.</li>
+                                <li><strong>Hamming Loss:</strong> Mide la fracción de etiquetas que fueron incorrectamente predichas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Optimización -->
+                <div class="glass-effect p-8 rounded-xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-purple-600 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2.12l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2.12l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Herramientas de Optimización</h3>
+                    </div>
+                     <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-purple-400">Ajuste de Hiperparámetros:</h4>
+                            <p class="text-gray-400 mt-2">Utilizaremos <code class="bg-gray-700/50 px-1 rounded">Grid Search</code> y <code class="bg-gray-700/50 px-1 rounded">Random Search</code> para explorar sistemáticamente las mejores configuraciones de los modelos.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-purple-400">Optimización Bayesiana:</h4>
+                             <p class="text-gray-400 mt-2">Para modelos complejos (Deep Learning), emplearemos librerías como <code class="bg-gray-700/50 px-1 rounded">Optuna</code> o <code class="bg-gray-700/50 px-1 rounded">Hyperopt</code> para encontrar los hiperparámetros óptimos de forma más eficiente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aplicaciones Avanzadas en Streaming -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="section-title text-white">Aplicaciones Avanzadas en Streaming</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">La tecnología detrás de este proyecto es versátil y puede aplicarse para resolver otros desafíos complejos dentro de la industria.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                 <!-- Caso de Uso 1 -->
+                <div class="glass-effect p-8 rounded-xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-blue-600 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><line x1="12" y1="20" x2="12" y2="10" /><line x1="18" y1="20" x2="18" y2="4" /><line x1="6" y1="20" x2="6" y2="16" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Análisis de Catálogo para Productores</h3>
+                    </div>
+                    <p class="text-gray-400">Los estudios podrían usar nuestro modelo para analizar todo el catálogo de una plataforma, identificar géneros o temas saturados y encontrar "nichos de oportunidad" para futuras producciones.</p>
+                </div>
+                 <!-- Caso de Uso 2 -->
+                <div class="glass-effect p-8 rounded-xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-blue-600 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Colecciones Temáticas Dinámicas</h3>
+                    </div>
+                    <p class="text-gray-400">Crear automáticamente colecciones y listas de reproducción ultra-específicas (ej: "Películas con Giros de Trama Inesperados") basadas en el análisis semántico de las sinopsis, no solo en etiquetas de género generales.</p>
+                </div>
+                 <!-- Caso de Uso 3 -->
+                <div class="glass-effect p-8 rounded-xl">
+                     <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-blue-600 p-3 rounded-lg">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Búsqueda Semántica Avanzada</h3>
+                    </div>
+                    <p class="text-gray-400">Permitir a los usuarios buscar con frases complejas y conversacionales como "película sobre un hombre que queda varado y aprende a sobrevivir", y que el sistema entienda el significado y encuentre "Náufrago" (Cast Away).</p>
+                </div>
+                 <!-- Caso de Uso 4 -->
+                <div class="glass-effect p-8 rounded-xl">
+                     <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-blue-600 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Moderación y Estandarización</h3>
+                    </div>
+                    <p class="text-gray-400">Utilizar la capacidad de clasificación para verificar automáticamente la consistencia entre la sinopsis de un nuevo título y los géneros asignados, asegurando la calidad y coherencia de los datos en toda la plataforma.</p>
                 </div>
             </div>
         </section>
