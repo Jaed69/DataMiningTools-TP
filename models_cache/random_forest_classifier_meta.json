@@ -1,0 +1,9 @@
+{
+  "training_time": 14.100491762161255,
+  "type": "classifier",
+  "algorithm": "RandomForest",
+  "n_samples": 8807,
+  "n_classes": 42,
+  "saved_at": "2025-11-28T23:26:52.384061",
+  "model_name": "random_forest_classifier"
+}

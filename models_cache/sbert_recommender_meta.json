@@ -1,0 +1,8 @@
+{
+  "training_time": 51.108484983444214,
+  "type": "recommender",
+  "algorithm": "SBERT",
+  "model_name": "sbert_recommender",
+  "n_documents": 8807,
+  "saved_at": "2025-11-28T23:26:34.431200"
+}

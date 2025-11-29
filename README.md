@@ -1,17 +1,45 @@
-# Sistema de Recomendación de Contenido Netflix 🎬
+# 🎬 Netflix AI - Sistema Multi-Modelo de Recomendación
 
-Un sistema de recomendación basado en contenido para películas y series de Netflix, utilizando técnicas de Minería de Textos y Procesamiento de Lenguaje Natural (PNL).
+<div align="center">
 
-## 📋 Objetivo del Proyecto
+![Python](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B?style=for-the-badge&logo=streamlit)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-green?style=for-the-badge)
+![NLP](https://img.shields.io/badge/NLP-TF--IDF%20|%20Doc2Vec%20|%20SBERT-red?style=for-the-badge)
 
-El objetivo principal de este proyecto es desarrollar un sistema de recomendación basado en el contenido para películas y series de la plataforma Netflix. El modelo analiza las características descriptivas de cada título —como género, reparto, dirección y sinopsis— para identificar similitudes entre producciones y sugerir contenidos que se ajusten a los intereses del usuario.
+**Sistema avanzado de recomendación con múltiples modelos de NLP y comparador de algoritmos**
+
+[Demo](#-inicio-rápido) | [Documentación](#-arquitectura) | [Modelos](#-modelos-disponibles)
+
+</div>
+
+---
+
+## 📋 Descripción
+
+Sistema de recomendación basado en contenido para el catálogo de Netflix que implementa **múltiples algoritmos de NLP** con una interfaz interactiva en Streamlit. Permite comparar el rendimiento de diferentes modelos (TF-IDF, Doc2Vec, SBERT) y clasificadores de géneros con métricas cuantitativas y explicaciones detalladas.
 
 ## 🚀 Características Principales
 
-- **Análisis de texto avanzado**: Procesamiento de sinopsis con técnicas de NLP
-- **Múltiples características**: Consideración de directores, elenco, géneros y descripciones
-- **Limpieza de datos**: Manejo de valores nulos y normalización de texto
-- **Sistema de similitud**: Implementación de modelos de similitud basados en contenido
+### 🎯 Recomendación Multi-Modelo
+- **TF-IDF**: Modelo clásico basado en frecuencia de términos
+- **Doc2Vec**: Embeddings de documentos para captura semántica
+- **SBERT**: Sentence Transformers - Estado del arte en similitud semántica
+
+### 🏷️ Clasificación de Géneros
+- **Logistic Regression**: Clasificador rápido y preciso
+- **Naive Bayes**: Excelente para texto
+- **Random Forest**: Robusto ante ruido
+
+### 📈 Evaluación y Métricas
+- Comparación cuantitativa entre algoritmos
+- Métricas: Precision@K, Recall@K, F1-Score, Hamming Loss
+- Visualización interactiva con gráficos
+
+### 💡 Explicaciones Detalladas
+- Entiende **por qué** cada algoritmo recomienda diferente
+- Análisis de similitud semántica vs léxica
+- Comparación lado a lado de resultados
 
 ## 📊 Dataset
 
@@ -48,31 +76,120 @@ El proyecto utiliza el dataset `netflix_titles.csv` que contiene información so
 ```
 DataMiningTools-TP/
 │
-├── README.md                 # Documentación del proyecto
-├── TP1.ipynb                 # Notebook principal con el análisis
-├── netflix_titles.csv        # Dataset de títulos de Netflix
-└── Data Mining Tools.pdf     # Documentación adicional del proyecto
+├── app_streamlit.py           # 🚀 Aplicación principal (Streamlit)
+├── train_models.py            # Script para entrenar y cachear modelos
+├── requirements.txt           # Dependencias del proyecto
+├── README.md                  # Documentación
+├── PPT.html                   # Presentación del proyecto
+│
+├── data/
+│   ├── netflix_titles.csv         # Dataset original
+│   └── netflix_titles_clean.csv   # Dataset limpio con texto enriquecido
+│
+├── models_cache/              # Modelos pre-entrenados (generados)
+│   ├── tfidf_recommender.pkl
+│   ├── doc2vec_recommender.pkl
+│   ├── sbert_recommender.pkl
+│   └── *_classifier.pkl
+│
+├── src/
+│   ├── __init__.py
+│   ├── data_loader.py         # Carga y preprocesamiento de datos
+│   ├── engine.py              # Motor multi-modelo
+│   ├── metrics.py             # Métricas de evaluación
+│   ├── model_persistence.py   # Persistencia de modelos
+│   │
+│   └── models/                # Modelos de NLP
+│       ├── __init__.py
+│       ├── base_model.py      # Clases base abstractas
+│       ├── tfidf_model.py     # Modelo TF-IDF
+│       ├── doc2vec_model.py   # Modelo Doc2Vec
+│       ├── sbert_model.py     # Modelo SBERT
+│       └── classifier_models.py # Clasificadores
+│
+├── notebooks/
+│   ├── TP1.ipynb              # Notebook original
+│   └── EDA_Netflix.ipynb      # Análisis exploratorio de datos
+│
+└── docs/                      # Documentación adicional
 ```
+
+## ⚡ Inicio Rápido
+
+### 1. Clonar e Instalar
+
+```bash
+# Clonar repositorio
+git clone https://github.com/Jaed69/DataMiningTools-TP.git
+cd DataMiningTools-TP
+
+# Crear entorno virtual (recomendado)
+conda create -n netflix_rec python=3.10
+conda activate netflix_rec
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+### 2. Entrenar Modelos (Primera vez)
+
+```bash
+# Entrenar y cachear todos los modelos
+python train_models.py
+```
+
+Este paso genera los archivos `.pkl` en `models_cache/` para carga rápida.
+
+### 3. Ejecutar la Aplicación
+
+```bash
+# Iniciar aplicación Streamlit
+streamlit run app_streamlit.py
+```
+
+La aplicación estará disponible en: `http://localhost:8501`
+
+## 🧠 Modelos Disponibles
+
+### Recomendadores
+
+| Modelo | Dependencia | Descripción | Velocidad | Precisión |
+|--------|-------------|-------------|-----------|-----------|
+| **TF-IDF** | ✅ Incluido | Frecuencia de términos + Coseno | ⚡ Rápido | ⭐⭐⭐ |
+| **Doc2Vec** | `gensim` | Embeddings de documentos | 🔄 Medio | ⭐⭐⭐⭐ |
+| **SBERT** | `sentence-transformers` | Transformers pre-entrenados | 🐢 Lento (primera vez) | ⭐⭐⭐⭐⭐ |
+
+### Clasificadores
+
+| Modelo | Descripción | Mejor para |
+|--------|-------------|------------|
+| **Logistic Regression** | Clasificador lineal | Baseline, datos balanceados |
+| **Naive Bayes** | Probabilístico | Texto, alta dimensionalidad |
+| **Random Forest** | Ensemble de árboles | Datos con ruido |
 
 ## 🔍 Proceso de Análisis
 
 ### 1. Exploración de Datos
+
 - Análisis estadístico descriptivo
 - Identificación de valores nulos y duplicados
 - Visualización de distribuciones
 
 ### 2. Limpieza de Datos
+
 - Tratamiento de valores faltantes
 - Normalización de texto
 - Eliminación de outliers
 
 ### 3. Procesamiento de Texto
+
 - **Limpieza estructural**: Eliminación de URLs, HTML, caracteres especiales
 - **Tokenización**: Separación de palabras
 - **Eliminación de stop words**: Filtrado de palabras comunes
 - **Lematización**: Reducción de palabras a su forma base
 
 ### 4. Preparación para Modelado
+
 - Combinación de características textuales
 - Creación de variables derivadas
 - Selección de características relevantes
@@ -85,28 +202,81 @@ DataMiningTools-TP/
 - **Clasificación**: TV-MA (32%) es la clasificación más común
 - **Géneros**: Predominan dramas y documentales
 
-## 🚧 Próximos Pasos
+## 🏗️ Arquitectura del Sistema
 
-1. **Implementación del modelo de similitud** usando TF-IDF o embeddings
-2. **Sistema de recomendación** basado en similitud de contenido
-3. **Interfaz de usuario** para consultas y recomendaciones
-4. **Evaluación del modelo** con métricas de precisión y recall
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    NETFLIX AI SYSTEM                        │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │  Streamlit  │  │   Plotly    │  │   Evaluación        │  │
+│  │   UI/UX     │◄─┤   Graphs    │◄─┤   & Métricas        │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│                    MultiModelEngine                         │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │  ┌─────────┐  ┌─────────┐  ┌─────────┐              │  │
+│  │  │ TF-IDF  │  │ Doc2Vec │  │  SBERT  │  Recommenders │  │
+│  │  └─────────┘  └─────────┘  └─────────┘              │  │
+│  │  ┌─────────┐  ┌─────────┐  ┌─────────┐              │  │
+│  │  │Logistic │  │  NB     │  │   RF    │  Classifiers │  │
+│  │  └─────────┘  └─────────┘  └─────────┘              │  │
+│  └───────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│                      DataLoader                             │
+│         (Dataset limpio + Texto enriquecido)                │
+└─────────────────────────────────────────────────────────────┘
+```
 
-## 📝 Uso del Proyecto
+## 🖥️ Tabs de la Aplicación
 
-1. Clona el repositorio
-2. Instala las dependencias requeridas
-3. Ejecuta el notebook `TP1.ipynb` para ver el análisis completo
-4. El dataset `netflix_titles.csv` debe estar en el directorio raíz
+| Tab | Descripción |
+|-----|-------------|
+| 🎬 **Recomendador** | Obtén 5 títulos similares con cualquier algoritmo |
+| 💡 **Explicación** | Entiende POR QUÉ cada algoritmo recomienda diferente |
+| 🏷️ **Clasificador** | Predice géneros para nuevas descripciones |
+| 📈 **Evaluación** | Compara métricas cuantitativas de todos los modelos |
+| ⚡ **Benchmark** | Tiempos de entrenamiento e inferencia |
+| 🤔 **¿Cómo Funciona?** | Explicación técnica de cada algoritmo |
+| 📊 **Métricas** | Precision@K, Recall@K, F1-Score detallados |
 
-## 👥 Contribuciones
+## 📊 Métricas de Evaluación
 
-Este es un proyecto académico enfocado en el aprendizaje de técnicas de Data Mining y NLP aplicadas a sistemas de recomendación.
+### Para Recomendación
+
+- **Precision@K**: Proporción de items relevantes en top-K
+- **Recall@K**: Proporción de relevantes encontrados
+- **NDCG**: Normalized Discounted Cumulative Gain
+- **MAP**: Mean Average Precision
+- **Coverage**: Proporción del catálogo recomendado
+
+### Para Clasificación
+
+- **F1-Score (Micro/Macro)**: Balance precisión-recall
+- **Hamming Loss**: Fracción de etiquetas incorrectas
+- **Subset Accuracy**: Coincidencia exacta de etiquetas
+
+## 👥 Equipo
+
+| Nombre | Código |
+|--------|--------|
+| Ricardo Rafael Rivas Carrillo | U202215375 |
+| Ian Joaquin Sanchez Alva | U202124676 |
+| Jhamil Brijan Peña Cardenas | U201714492 |
+
+**Curso:** Data Mining Tools - Sección 2520  
+**Universidad:** Universidad Peruana de Ciencias Aplicadas
 
 ## 📄 Licencia
 
-Este proyecto está desarrollado con fines educativos como parte del curso de Data Mining Tools.
+Este proyecto está desarrollado con fines educativos.
 
 ---
 
-*Proyecto desarrollado utilizando técnicas de Minería de Datos y Procesamiento de Lenguaje Natural para la construcción de sistemas de recomendación inteligentes.*
+<div align="center">
+
+**🍿 Netflix AI - Sistema de Recomendación Inteligente**
+
+Desarrollado con ❤️ usando Python, NLP y Machine Learning
+
+</div>

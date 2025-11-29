@@ -1,0 +1,9 @@
+{
+  "training_time": 2.3633310794830322,
+  "type": "classifier",
+  "algorithm": "Logistic",
+  "n_samples": 8807,
+  "n_classes": 42,
+  "saved_at": "2025-11-28T23:26:36.801409",
+  "model_name": "logistic_classifier"
+}
