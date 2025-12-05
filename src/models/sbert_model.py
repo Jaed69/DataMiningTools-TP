@@ -5,7 +5,8 @@ Estado del arte en similitud semántica.
 import numpy as np
 import pandas as pd
 import time
-from typing import List, Dict, Tuple, Any
+import os
+from typing import List, Dict, Tuple, Any, Optional
 from sklearn.metrics.pairwise import cosine_similarity
 from .base_model import BaseRecommenderModel
 
@@ -15,6 +16,9 @@ try:
     SBERT_AVAILABLE = True
 except ImportError:
     SBERT_AVAILABLE = False
+
+# Directorio para cache de embeddings
+EMBEDDINGS_CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models_cache")
 
 
 class SBERTRecommender(BaseRecommenderModel):
@@ -35,7 +39,8 @@ class SBERTRecommender(BaseRecommenderModel):
         self, 
         model_name: str = "all-MiniLM-L6-v2",
         batch_size: int = 32,
-        use_gpu: bool = False
+        use_gpu: bool = False,
+        cache_embeddings: bool = True
     ):
         super().__init__(
             name="SBERT (Sentence-Transformers)",
@@ -50,11 +55,55 @@ class SBERTRecommender(BaseRecommenderModel):
         self.model_name = model_name
         self.batch_size = batch_size
         self.device = "cuda" if use_gpu else "cpu"
+        self.cache_embeddings = cache_embeddings
         self.model = None
         self.titles = []
         self.data = None
         self.doc_vectors = None
         self.similarity_matrix = None
+        
+    def _get_cache_path(self) -> str:
+        """Retorna la ruta del archivo de cache de embeddings."""
+        model_safe_name = self.model_name.replace("/", "_").replace("-", "_")
+        return os.path.join(EMBEDDINGS_CACHE_DIR, f"sbert_embeddings_{model_safe_name}.npy")
+    
+    def _get_metadata_path(self) -> str:
+        """Retorna la ruta del archivo de metadatos de embeddings."""
+        model_safe_name = self.model_name.replace("/", "_").replace("-", "_")
+        return os.path.join(EMBEDDINGS_CACHE_DIR, f"sbert_embeddings_{model_safe_name}_meta.json")
+    
+    def _load_cached_embeddings(self, expected_size: int) -> Optional[np.ndarray]:
+        """Intenta cargar embeddings cacheados."""
+        cache_path = self._get_cache_path()
+        
+        if not os.path.exists(cache_path):
+            return None
+            
+        try:
+            embeddings = np.load(cache_path)
+            if embeddings.shape[0] == expected_size:
+                print(f"✓ Embeddings cargados desde cache: {cache_path}")
+                return embeddings
+            else:
+                print(f"⚠️ Cache tiene tamaño diferente ({embeddings.shape[0]} vs {expected_size}), recalculando...")
+                return None
+        except Exception as e:
+            print(f"⚠️ Error cargando cache: {e}")
+            return None
+    
+    def _save_embeddings_to_cache(self, embeddings: np.ndarray) -> None:
+        """Guarda embeddings en cache."""
+        if not self.cache_embeddings:
+            return
+            
+        cache_path = self._get_cache_path()
+        
+        try:
+            os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+            np.save(cache_path, embeddings)
+            print(f"✓ Embeddings guardados en cache: {cache_path}")
+        except Exception as e:
+            print(f"⚠️ Error guardando cache: {e}")
         
     def fit(self, texts: List[str], titles: List[str], data: pd.DataFrame = None) -> None:
         """Entrena (genera embeddings) con SBERT."""
@@ -67,19 +116,32 @@ class SBERTRecommender(BaseRecommenderModel):
         self.data = data
         self.indices = pd.Series(range(len(titles)), index=titles).drop_duplicates()
         
-        # Cargar modelo pre-entrenado
-        print(f"Cargando modelo SBERT: {self.model_name}...")
-        self.model = SentenceTransformer(self.model_name, device=self.device)
+        # Intentar cargar embeddings cacheados
+        cached_embeddings = self._load_cached_embeddings(len(texts))
         
-        # Generar embeddings
-        print("Generando embeddings semánticos...")
-        self.doc_vectors = self.model.encode(
-            texts, 
-            batch_size=self.batch_size,
-            show_progress_bar=True,
-            convert_to_numpy=True
-        )
-        self.embeddings = self.doc_vectors
+        if cached_embeddings is not None:
+            self.doc_vectors = cached_embeddings
+            self.embeddings = self.doc_vectors
+            # Solo necesitamos cargar el modelo si se van a generar nuevos embeddings
+            print(f"Cargando modelo SBERT: {self.model_name}...")
+            self.model = SentenceTransformer(self.model_name, device=self.device)
+        else:
+            # Cargar modelo pre-entrenado
+            print(f"Cargando modelo SBERT: {self.model_name}...")
+            self.model = SentenceTransformer(self.model_name, device=self.device)
+            
+            # Generar embeddings
+            print("Generando embeddings semánticos...")
+            self.doc_vectors = self.model.encode(
+                texts, 
+                batch_size=self.batch_size,
+                show_progress_bar=True,
+                convert_to_numpy=True
+            )
+            self.embeddings = self.doc_vectors
+            
+            # Guardar en cache
+            self._save_embeddings_to_cache(self.doc_vectors)
         
         # Calcular matriz de similitud
         print("Calculando matriz de similitud...")

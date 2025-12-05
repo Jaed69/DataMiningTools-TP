@@ -248,11 +248,13 @@ with st.sidebar:
 # =============================================================================
 # TABS PRINCIPALES
 # =============================================================================
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "🎬 Recomendador", 
     "🔍 Explicación",
+    "🔎 Búsqueda Semántica",
     "🏷️ Clasificador",
     "📈 Evaluación",
+    "🎨 Clustering",
     "⏱️ Benchmark", 
     "📖 ¿Cómo Funciona?",
     "📊 Métricas"
@@ -653,9 +655,114 @@ with tab2:
         st.info("👆 Selecciona una película arriba para ver el análisis comparativo completo")
 
 # -----------------------------------------------------------------------------
-# TAB 3: CLASIFICADOR
+# TAB 3: BÚSQUEDA SEMÁNTICA
 # -----------------------------------------------------------------------------
 with tab3:
+    st.markdown("### 🔎 Búsqueda Semántica con SBERT")
+    
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 100%); padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; border-left: 4px solid #e50914;">
+        <h4 style="color: #e50914; margin: 0;">🧠 Búsqueda por Significado</h4>
+        <p style="color: #b3b3b3; margin: 0.5rem 0 0 0;">Describe lo que quieres ver con tus propias palabras. SBERT entiende el significado semántico de tu consulta.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Input de búsqueda
+    col_search, col_options = st.columns([3, 1])
+    
+    with col_search:
+        search_query = st.text_input(
+            "🔍 ¿Qué tipo de película o serie buscas?",
+            placeholder="Ej: película sobre supervivencia en una isla desierta",
+            help="Escribe una descripción natural de lo que quieres ver"
+        )
+    
+    with col_options:
+        n_results = st.slider("Resultados:", min_value=5, max_value=20, value=10, key="sem_search_n")
+    
+    # Ejemplos de búsqueda
+    st.markdown("**💡 Ejemplos de búsqueda:**")
+    example_cols = st.columns(4)
+    examples = [
+        "historia de amor prohibido entre dos jóvenes",
+        "thriller psicológico con giros inesperados",
+        "comedia familiar para ver con niños",
+        "documental sobre naturaleza y animales salvajes"
+    ]
+    
+    for i, (col, example) in enumerate(zip(example_cols, examples)):
+        with col:
+            if st.button(f"📌 {example[:20]}...", key=f"example_{i}", use_container_width=True):
+                search_query = example
+    
+    # Botón de búsqueda
+    search_btn = st.button("🔎 Buscar", type="primary", use_container_width=True)
+    
+    # Resultados
+    if (search_btn or search_query) and search_query.strip():
+        if "SBERT" in models["recommenders"]:
+            with st.spinner("Buscando películas similares..."):
+                try:
+                    sbert_model = models["recommenders"]["SBERT"]
+                    
+                    # Verificar si tiene método semantic_search
+                    if hasattr(sbert_model, 'semantic_search'):
+                        results = sbert_model.semantic_search(search_query.strip(), top_k=n_results)
+                    else:
+                        # Fallback: usar el modelo para codificar y buscar
+                        st.warning("⚠️ semantic_search no disponible, usando método alternativo")
+                        results = []
+                    
+                    if results:
+                        st.markdown(f"### 🎯 {len(results)} resultados para: *\"{search_query}\"*")
+                        
+                        for i, (title, score, genre, desc) in enumerate(results, 1):
+                            # Obtener más info del dataframe
+                            movie_info = data[data['title'] == title].iloc[0] if len(data[data['title'] == title]) > 0 else None
+                            year = movie_info['release_year'] if movie_info is not None else 'N/A'
+                            movie_type = movie_info['type'] if movie_info is not None else 'N/A'
+                            
+                            st.markdown(f"""
+                            <div style="background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 10px; padding: 1rem 1.5rem; margin: 0.8rem 0; border-left: 4px solid #e50914;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <h4 style="color: white; margin: 0;">{i}. {title}</h4>
+                                    <span style="background: linear-gradient(90deg, #e50914, #ff6b6b); color: white; padding: 3px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold;">{score*100:.1f}% match</span>
+                                </div>
+                                <p style="color: #888; margin: 0.3rem 0;">📅 {year} | 🎭 {movie_type}</p>
+                                <p style="color: #666; margin: 0.3rem 0;">🏷️ {genre}</p>
+                                <p style="color: #999; margin: 0.5rem 0; font-size: 0.9rem; font-style: italic;">"{desc[:200]}..."</p>
+                            </div>
+                            """, unsafe_allow_html=True)
+                    else:
+                        st.info("No se encontraron resultados. Intenta con otra descripción.")
+                        
+                except Exception as e:
+                    st.error(f"Error en búsqueda: {str(e)}")
+                    import traceback
+                    st.code(traceback.format_exc())
+        else:
+            st.warning("⚠️ El modelo SBERT no está disponible. Ejecuta `python train_models.py` primero.")
+    
+    # Explicación de cómo funciona
+    with st.expander("ℹ️ ¿Cómo funciona la búsqueda semántica?"):
+        st.markdown("""
+        **La búsqueda semántica es diferente a la búsqueda por palabras clave:**
+        
+        | Búsqueda Tradicional | Búsqueda Semántica |
+        |---------------------|-------------------|
+        | Busca palabras exactas | Entiende el significado |
+        | "zombie" solo encuentra "zombie" | "muertos vivientes" también encuentra "zombie" |
+        | Requiere keywords específicos | Acepta lenguaje natural |
+        
+        **SBERT (Sentence-BERT)** convierte tu consulta en un vector de 384 dimensiones que representa 
+        su significado semántico. Luego compara ese vector con todos los vectores de las películas 
+        para encontrar las más similares en significado, no en palabras.
+        """)
+
+# -----------------------------------------------------------------------------
+# TAB 4: CLASIFICADOR
+# -----------------------------------------------------------------------------
+with tab4:
     st.markdown("### 🏷️ Clasificador de Géneros")
     
     col1, col2 = st.columns([1, 1])
@@ -721,9 +828,9 @@ with tab3:
             st.warning("⚠️ Escribe una sinopsis primero")
 
 # -----------------------------------------------------------------------------
-# TAB 4: EVALUACIÓN COMPARATIVA DE ALGORITMOS
+# TAB 5: EVALUACIÓN COMPARATIVA DE ALGORITMOS
 # -----------------------------------------------------------------------------
-with tab4:
+with tab5:
     st.markdown("### 📈 Evaluación: Comparación Cuantitativa de Modelos")
     
     st.markdown("""
@@ -1334,9 +1441,170 @@ with tab4:
     st.info("👆 Usa las herramientas de arriba para comparar **Recomendadores** (selecciona película) y **Clasificadores** (escribe sinopsis).")
 
 # -----------------------------------------------------------------------------
-# TAB 5: BENCHMARK DE RENDIMIENTO
+# TAB 6: CLUSTERING Y VISUALIZACIÓN
 # -----------------------------------------------------------------------------
-with tab5:
+with tab6:
+    st.markdown("### 🎨 Clustering y Visualización de Películas")
+    
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 100%); padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; border-left: 4px solid #9C27B0;">
+        <h4 style="color: #9C27B0; margin: 0;">🔬 Descubre Grupos Temáticos</h4>
+        <p style="color: #b3b3b3; margin: 0.5rem 0 0 0;">Agrupa películas automáticamente basándose en sus embeddings semánticos y visualiza cómo se organizan en el espacio.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Verificar disponibilidad
+    try:
+        from src.clustering import MovieClusterer, get_clustering_availability
+        clustering_available = get_clustering_availability()
+    except ImportError:
+        clustering_available = {"kmeans": False, "umap": False, "hdbscan": False, "tsne": False}
+    
+    # Mostrar disponibilidad
+    avail_cols = st.columns(4)
+    methods = [("K-Means", "kmeans"), ("HDBSCAN", "hdbscan"), ("UMAP", "umap"), ("t-SNE", "tsne")]
+    for col, (name, key) in zip(avail_cols, methods):
+        with col:
+            status = "✅" if clustering_available.get(key, False) else "❌"
+            st.markdown(f"**{name}:** {status}")
+    
+    if not clustering_available.get("kmeans", False):
+        st.warning("⚠️ Clustering no disponible. Instala: `pip install umap-learn hdbscan`")
+    else:
+        # Configuración
+        col_cfg1, col_cfg2 = st.columns(2)
+        
+        with col_cfg1:
+            clustering_method = st.selectbox(
+                "Método de Clustering:",
+                options=["K-Means", "HDBSCAN"] if clustering_available.get("hdbscan") else ["K-Means"],
+                key="cluster_method"
+            )
+            
+            if clustering_method == "K-Means":
+                n_clusters = st.slider("Número de clusters:", min_value=5, max_value=30, value=15, key="n_clusters")
+        
+        with col_cfg2:
+            reduction_method = st.selectbox(
+                "Método de Reducción:",
+                options=["UMAP", "t-SNE"] if clustering_available.get("umap") else ["t-SNE"],
+                key="reduction_method"
+            )
+        
+        # Botón para ejecutar
+        if st.button("🚀 Ejecutar Clustering", type="primary", key="run_clustering"):
+            if "SBERT" in models["recommenders"] and hasattr(models["recommenders"]["SBERT"], 'doc_vectors'):
+                with st.spinner("Ejecutando clustering y reducción de dimensionalidad..."):
+                    try:
+                        clusterer = MovieClusterer()
+                        
+                        # Obtener embeddings del modelo SBERT
+                        sbert_model = models["recommenders"]["SBERT"]
+                        embeddings = sbert_model.doc_vectors
+                        
+                        clusterer.set_embeddings(embeddings, titles, data)
+                        
+                        # Clustering
+                        if clustering_method == "K-Means":
+                            cluster_info = clusterer.fit_kmeans(n_clusters=n_clusters)
+                        else:
+                            cluster_info = clusterer.fit_hdbscan()
+                        
+                        # Reducción de dimensionalidad
+                        reduction = reduction_method.lower().replace("-", "")
+                        reduced = clusterer.reduce_dimensions(method=reduction, n_components=2)
+                        
+                        # Guardar en session state
+                        st.session_state['cluster_data'] = clusterer.get_visualization_data()
+                        st.session_state['cluster_summary'] = clusterer.get_cluster_summary()
+                        st.session_state['cluster_info'] = cluster_info
+                        
+                        st.success(f"✅ Clustering completado: {cluster_info.get('n_clusters', 0)} clusters encontrados")
+                        
+                    except Exception as e:
+                        st.error(f"Error: {str(e)}")
+                        import traceback
+                        st.code(traceback.format_exc())
+            else:
+                st.warning("⚠️ Modelo SBERT no disponible o no tiene embeddings.")
+        
+        # Mostrar resultados si existen
+        if 'cluster_data' in st.session_state:
+            cluster_data = st.session_state['cluster_data']
+            cluster_summary = st.session_state['cluster_summary']
+            cluster_info = st.session_state['cluster_info']
+            
+            st.markdown("---")
+            
+            # Métricas
+            metric_cols = st.columns(4)
+            with metric_cols[0]:
+                st.metric("Clusters", cluster_info.get('n_clusters', 0))
+            with metric_cols[1]:
+                st.metric("Silhouette Score", f"{cluster_info.get('silhouette_score', 0):.3f}")
+            with metric_cols[2]:
+                st.metric("Tiempo", f"{cluster_info.get('training_time', 0):.2f}s")
+            with metric_cols[3]:
+                if 'n_noise_points' in cluster_info:
+                    st.metric("Ruido", cluster_info['n_noise_points'])
+            
+            # Gráfico interactivo
+            st.markdown("### 📊 Visualización 2D")
+            
+            # Crear DataFrame para Plotly
+            viz_df = pd.DataFrame({
+                'x': cluster_data['x'],
+                'y': cluster_data['y'],
+                'title': cluster_data['titles'],
+                'cluster': cluster_data['labels'],
+                'genre': cluster_data.get('genres', ['N/A'] * len(cluster_data['titles']))
+            })
+            
+            # Gráfico de dispersión
+            fig = px.scatter(
+                viz_df,
+                x='x', y='y',
+                color='cluster',
+                hover_name='title',
+                hover_data={'genre': True, 'cluster': True, 'x': False, 'y': False},
+                title=f"Películas agrupadas ({cluster_data['reduction_method'].upper()})",
+                color_continuous_scale='rainbow'
+            )
+            
+            fig.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(color='white'),
+                height=600,
+                showlegend=True
+            )
+            
+            fig.update_traces(marker=dict(size=5, opacity=0.7))
+            
+            st.plotly_chart(fig, use_container_width=True)
+            
+            # Resumen de clusters
+            st.markdown("### 📋 Resumen de Clusters")
+            
+            for cluster in cluster_summary[:10]:  # Mostrar primeros 10
+                if cluster['cluster_id'] == -1:
+                    continue  # Skip ruido
+                    
+                with st.expander(f"**{cluster['name']}** ({cluster['size']} películas, {cluster['percentage']:.1f}%)"):
+                    # Top géneros
+                    st.markdown("**🏷️ Géneros dominantes:**")
+                    for genre, count in list(cluster['top_genres'].items())[:5]:
+                        st.markdown(f"- {genre}: {count}")
+                    
+                    # Películas de ejemplo
+                    st.markdown("**🎬 Ejemplos:**")
+                    for title in cluster['sample_titles'][:5]:
+                        st.markdown(f"- {title}")
+
+# -----------------------------------------------------------------------------
+# TAB 7: BENCHMARK DE RENDIMIENTO
+# -----------------------------------------------------------------------------
+with tab7:
     st.markdown("### ⏱️ Benchmark: Rendimiento de los Algoritmos")
     
     st.info("💡 Este tab muestra los tiempos de entrenamiento y características técnicas. Para ver **por qué** cada algoritmo recomienda diferentes películas, ve al tab 🔍 **Explicación**.")
@@ -1479,9 +1747,9 @@ with tab5:
         """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# TAB 6: ¿CÓMO FUNCIONA?
+# TAB 8: ¿CÓMO FUNCIONA?
 # -----------------------------------------------------------------------------
-with tab6:
+with tab8:
     st.markdown("### 📖 ¿Cómo Funcionan los Algoritmos de Recomendación?")
     
     st.markdown("""
@@ -1617,92 +1885,331 @@ with tab6:
     """)
 
 # -----------------------------------------------------------------------------
-# TAB 7: MÉTRICAS
+# TAB 9: MÉTRICAS DETALLADAS DE EVALUACIÓN
 # -----------------------------------------------------------------------------
-with tab7:
-    st.markdown("### 📊 Dashboard del Sistema")
+with tab9:
+    st.markdown("### 📊 Métricas de Evaluación Detalladas")
+    
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 100%); padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; border-left: 4px solid #FF9800;">
+        <h4 style="color: #FF9800; margin: 0;">📈 Evaluación Cuantitativa de Modelos</h4>
+        <p style="color: #b3b3b3; margin: 0.5rem 0 0 0;">Calcula métricas reales usando géneros como ground truth para evaluar la calidad de las recomendaciones.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Dashboard de información del sistema
+    st.markdown("#### 📋 Estado del Sistema")
     
     info = benchmark.get("dataset_info", {})
     recs = benchmark.get("recommenders", {})
     clfs = benchmark.get("classifiers", {})
     
-    # Métricas principales
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.markdown(f"""
-        <div class="metric-box">
-            <div class="metric-value">{info.get('total_titles', 0):,}</div>
-            <div class="metric-label">Títulos</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown(f"""
-        <div class="metric-box">
-            <div class="metric-value">{info.get('unique_genres', 0)}</div>
-            <div class="metric-label">Géneros</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        n_recs = sum(1 for r in recs.values() if r.get("available"))
-        st.markdown(f"""
-        <div class="metric-box">
-            <div class="metric-value">{n_recs}</div>
-            <div class="metric-label">Recomendadores</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown(f"""
-        <div class="metric-box">
-            <div class="metric-value">{len(clfs)}</div>
-            <div class="metric-label">Clasificadores</div>
-        </div>
-        """, unsafe_allow_html=True)
+    # Métricas del sistema
+    sys_cols = st.columns(5)
+    with sys_cols[0]:
+        st.metric("📚 Títulos", f"{info.get('total_titles', len(titles)):,}")
+    with sys_cols[1]:
+        st.metric("🏷️ Géneros", info.get('unique_genres', 42))
+    with sys_cols[2]:
+        n_recs = len([r for r in models["recommenders"].keys()])
+        st.metric("🎯 Recomendadores", n_recs)
+    with sys_cols[3]:
+        n_clfs = len([c for c in models["classifiers"].keys()])
+        st.metric("🏷️ Clasificadores", n_clfs)
+    with sys_cols[4]:
+        st.metric("📝 Avg Desc Length", f"{info.get('avg_description_length', 0):.0f}")
     
     st.markdown("---")
     
-    # Tabla de modelos
-    st.markdown("#### 📋 Detalle de Modelos")
+    # ==========================================================================
+    # SECCIÓN 1: EVALUACIÓN DE RECOMENDADORES
+    # ==========================================================================
+    st.markdown("## 🎯 Evaluación de Recomendadores")
+    
+    st.markdown("""
+    **Metodología:** Usamos los **géneros** como ground truth. Si una película recomendada comparte 
+    al menos un género con la película original, la consideramos "relevante".
+    """)
+    
+    # Configuración
+    eval_cols = st.columns(3)
+    with eval_cols[0]:
+        n_test_movies = st.slider("Películas de prueba:", 10, 100, 30, key="n_test_eval")
+    with eval_cols[1]:
+        k_value = st.slider("Top K:", 3, 20, 5, key="k_value_eval")
+    with eval_cols[2]:
+        random_seed = st.number_input("Semilla aleatoria:", 0, 1000, 42, key="random_seed_eval")
+    
+    if st.button("🔬 Calcular Métricas de Recomendación", type="primary", key="calc_rec_metrics"):
+        if models["recommenders"] and data is not None:
+            with st.spinner("Calculando métricas para todos los recomendadores..."):
+                try:
+                    import numpy as np
+                    from src.metrics import RecommenderMetrics
+                    
+                    # Seleccionar películas de prueba aleatoriamente
+                    np.random.seed(random_seed)
+                    test_indices = np.random.choice(len(titles), min(n_test_movies, len(titles)), replace=False)
+                    test_titles_list = [titles[i] for i in test_indices]
+                    
+                    # Crear mapeo de título a géneros
+                    title_to_genres = {}
+                    for idx, row in data.iterrows():
+                        title = row['title']
+                        genres = row.get('genres_list', [])
+                        if not genres and 'listed_in' in row:
+                            genres = [g.strip() for g in str(row['listed_in']).split(',') if g.strip()]
+                        title_to_genres[title] = genres
+                    
+                    # Evaluar cada modelo
+                    results = {}
+                    progress_bar = st.progress(0)
+                    status_text = st.empty()
+                    
+                    model_list = list(models["recommenders"].items())
+                    
+                    for model_idx, (model_name, model) in enumerate(model_list):
+                        status_text.text(f"Evaluando {model_name}...")
+                        
+                        precisions = []
+                        recalls = []
+                        ndcgs = []
+                        aps = []
+                        genre_diversities = []
+                        
+                        for test_title in test_titles_list:
+                            try:
+                                # Obtener recomendaciones
+                                recs_raw = model.recommend(test_title, top_k=k_value)
+                                rec_titles = [r[0] for r in recs_raw]
+                                
+                                # Ground truth: películas que comparten género
+                                source_genres = set(title_to_genres.get(test_title, []))
+                                
+                                # Encontrar películas relevantes (comparten al menos 1 género)
+                                relevant = set()
+                                for other_title, other_genres in title_to_genres.items():
+                                    if other_title != test_title:
+                                        if source_genres.intersection(set(other_genres)):
+                                            relevant.add(other_title)
+                                
+                                if not relevant:
+                                    continue
+                                
+                                # Calcular métricas
+                                precision = RecommenderMetrics.precision_at_k(rec_titles, relevant, k_value)
+                                recall = RecommenderMetrics.recall_at_k(rec_titles, relevant, k_value)
+                                ndcg = RecommenderMetrics.ndcg_at_k(rec_titles, relevant, k_value)
+                                ap = RecommenderMetrics.average_precision(rec_titles, relevant)
+                                genre_div = RecommenderMetrics.genre_diversity(rec_titles, title_to_genres)
+                                
+                                precisions.append(precision)
+                                recalls.append(recall)
+                                ndcgs.append(ndcg)
+                                aps.append(ap)
+                                genre_diversities.append(genre_div)
+                                
+                            except Exception as e:
+                                continue
+                        
+                        # Promediar métricas
+                        if precisions:
+                            results[model_name] = {
+                                "Precision@K": np.mean(precisions),
+                                "Recall@K": np.mean(recalls),
+                                "nDCG@K": np.mean(ndcgs),
+                                "MAP": np.mean(aps),
+                                "Genre Diversity": np.mean(genre_diversities),
+                                "Evaluaciones": len(precisions)
+                            }
+                        
+                        progress_bar.progress((model_idx + 1) / len(model_list))
+                    
+                    status_text.empty()
+                    progress_bar.empty()
+                    
+                    if results:
+                        # Guardar en session state
+                        st.session_state['rec_metrics'] = results
+                        st.success(f"✅ Métricas calculadas para {len(results)} modelos")
+                    else:
+                        st.warning("No se pudieron calcular métricas. Verifica que los modelos estén entrenados.")
+                        
+                except Exception as e:
+                    st.error(f"Error: {str(e)}")
+                    import traceback
+                    st.code(traceback.format_exc())
+        else:
+            st.warning("⚠️ No hay modelos disponibles o datos cargados.")
+    
+    # Mostrar resultados si existen
+    if 'rec_metrics' in st.session_state:
+        results = st.session_state['rec_metrics']
+        
+        st.markdown("### 📊 Resultados de Evaluación")
+        
+        # Tabla resumen
+        df_results = pd.DataFrame(results).T
+        df_results = df_results.round(4)
+        
+        # Aplicar formato de porcentaje
+        styled_df = df_results.style.format({
+            "Precision@K": "{:.2%}",
+            "Recall@K": "{:.2%}",
+            "nDCG@K": "{:.4f}",
+            "MAP": "{:.4f}",
+            "Genre Diversity": "{:.2%}",
+            "Evaluaciones": "{:.0f}"
+        })
+        
+        st.dataframe(df_results, use_container_width=True)
+        
+        # Gráfico de barras comparativo
+        st.markdown("### 📈 Comparación Visual")
+        
+        metrics_to_plot = ["Precision@K", "Recall@K", "nDCG@K", "MAP"]
+        plot_data = []
+        
+        for model_name, metrics in results.items():
+            for metric_name in metrics_to_plot:
+                plot_data.append({
+                    "Modelo": model_name,
+                    "Métrica": metric_name,
+                    "Valor": metrics.get(metric_name, 0)
+                })
+        
+        df_plot = pd.DataFrame(plot_data)
+        
+        fig = px.bar(
+            df_plot,
+            x="Métrica",
+            y="Valor",
+            color="Modelo",
+            barmode="group",
+            color_discrete_map={
+                "TF-IDF": "#4CAF50",
+                "BM25": "#8BC34A",
+                "Doc2Vec": "#2196F3",
+                "SBERT": "#e50914"
+            },
+            title=f"Comparación de Métricas de Recomendación (K={k_value})"
+        )
+        
+        fig.update_layout(
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(color='white'),
+            height=400
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Mejor modelo por métrica
+        st.markdown("### 🏆 Mejor Modelo por Métrica")
+        
+        best_cols = st.columns(4)
+        metric_names = ["Precision@K", "Recall@K", "nDCG@K", "MAP"]
+        colors = ["#4CAF50", "#2196F3", "#FF9800", "#9C27B0"]
+        
+        for col, metric, color in zip(best_cols, metric_names, colors):
+            with col:
+                best_model = max(results.items(), key=lambda x: x[1].get(metric, 0))
+                st.markdown(f"""
+                <div style="background: {color}22; border: 2px solid {color}; border-radius: 10px; padding: 1rem; text-align: center;">
+                    <p style="color: #888; margin: 0; font-size: 0.8rem;">{metric}</p>
+                    <p style="color: white; font-size: 1.5rem; font-weight: bold; margin: 0.3rem 0;">{best_model[0]}</p>
+                    <p style="color: {color}; margin: 0;">{best_model[1].get(metric, 0):.4f}</p>
+                </div>
+                """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # ==========================================================================
+    # SECCIÓN 2: EXPLICACIÓN DE MÉTRICAS
+    # ==========================================================================
+    st.markdown("## 📖 Guía de Métricas")
+    
+    with st.expander("📊 **Métricas de Recomendación** - Qué significan y cómo interpretarlas"):
+        st.markdown("""
+        | Métrica | Descripción | Rango | Interpretación |
+        |---------|-------------|-------|----------------|
+        | **Precision@K** | De las K recomendaciones, ¿cuántas son relevantes? | 0-1 | Mayor = Más recomendaciones acertadas |
+        | **Recall@K** | De todos los items relevantes, ¿cuántos encontramos en K? | 0-1 | Mayor = Menos relevantes omitidos |
+        | **nDCG@K** | ¿Los items relevantes están en las primeras posiciones? | 0-1 | Mayor = Mejor ranking |
+        | **MAP** | Promedio de precisión en cada punto donde hay un hit | 0-1 | Mayor = Mejor calidad general |
+        | **Genre Diversity** | ¿Cuántos géneros diferentes cubren las recomendaciones? | 0-1 | Mayor = Más variedad |
+        
+        ---
+        
+        **¿Cómo definimos "relevante"?**
+        
+        Una película B es relevante para A si comparten **al menos un género**. Por ejemplo:
+        - "Stranger Things" (Sci-Fi, Horror) → "The OA" (Sci-Fi, Drama) ✅ Relevante
+        - "Stranger Things" (Sci-Fi, Horror) → "The Office" (Comedy) ❌ No relevante
+        
+        **¿Qué métrica usar?**
+        - Si importa que **todo** lo recomendado sea bueno → **Precision@K**
+        - Si importa **no perderse** nada bueno → **Recall@K**
+        - Si importa el **orden** → **nDCG@K**
+        - Para evaluación **general** → **MAP**
+        """)
+    
+    with st.expander("🏷️ **Métricas de Clasificación** - Para clasificadores de géneros"):
+        st.markdown("""
+        | Métrica | Descripción | Interpretación |
+        |---------|-------------|----------------|
+        | **F1-Score Micro** | Balance precisión-recall global | Mejor para clases desbalanceadas |
+        | **F1-Score Macro** | Promedio por clase (igual peso) | Evalúa rendimiento por clase |
+        | **Hamming Loss** | Fracción de etiquetas incorrectas | Menor = Mejor (idealmente 0) |
+        | **Subset Accuracy** | ¿Predicción exacta de TODAS las etiquetas? | Muy estricto |
+        
+        **Clasificación Multi-etiqueta:**
+        
+        Una película puede tener múltiples géneros. El clasificador predice probabilidades para cada género:
+        
+        ```
+        Input: "Un grupo de amigos descubre un portal a otra dimensión..."
+        Output: {
+            "Sci-Fi & Fantasy": 0.85,
+            "TV Dramas": 0.62,
+            "TV Mysteries": 0.58
+        }
+        ```
+        """)
+    
+    st.markdown("---")
+    
+    # ==========================================================================
+    # SECCIÓN 3: TABLA DE MODELOS Y TIEMPOS
+    # ==========================================================================
+    st.markdown("## ⏱️ Información de Modelos")
     
     table_data = []
-    for name, data in recs.items():
+    
+    for name, model_data in recs.items():
         table_data.append({
             "Modelo": name,
             "Tipo": "Recomendador",
-            "Tiempo (s)": f"{data.get('training_time', 0):.3f}" if data.get("available") else "-",
-            "Estado": "✅ Listo" if data.get("available") else "❌ No disponible"
+            "Tiempo Entrenamiento": f"{model_data.get('training_time', 0):.2f}s",
+            "Disponible": "✅" if model_data.get("available") else "❌",
+            "Descripción": model_data.get("description", "N/A")
         })
     
-    for name, data in clfs.items():
+    for name, clf_data in clfs.items():
         table_data.append({
             "Modelo": name,
             "Tipo": "Clasificador",
-            "Tiempo (s)": f"{data.get('training_time', 0):.3f}",
-            "Estado": "✅ Listo"
+            "Tiempo Entrenamiento": f"{clf_data.get('training_time', 0):.2f}s",
+            "Disponible": "✅" if clf_data.get("available") else "❌",
+            "Descripción": clf_data.get("description", "N/A")
         })
     
     if table_data:
-        st.dataframe(
-            pd.DataFrame(table_data),
-            use_container_width=True,
-            hide_index=True
-        )
+        st.dataframe(pd.DataFrame(table_data), use_container_width=True, hide_index=True)
     
-    # Info adicional
-    st.markdown("---")
-    st.markdown("#### ℹ️ Información del Sistema")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown(f"**Directorio de modelos:** `{MODELS_DIR}`")
-        st.markdown(f"**Dataset:** `{CSV_PATH}`")
-    
-    with col2:
-        if benchmark.get("generated_at"):
-            st.markdown(f"**Benchmark generado:** {benchmark['generated_at'][:19]}")
+    # Información del benchmark
+    if benchmark.get("generated_at"):
+        st.caption(f"📅 Benchmark generado: {benchmark['generated_at'][:19]}")
 
 # =============================================================================
 # FOOTER

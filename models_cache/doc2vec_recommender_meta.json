@@ -1,8 +1,8 @@
 {
-  "training_time": 31.749691486358643,
+  "training_time": 28.036948204040527,
   "type": "recommender",
   "algorithm": "Doc2Vec",
   "n_documents": 8807,
-  "saved_at": "2025-11-28T23:25:42.657098",
+  "saved_at": "2025-12-04T19:27:30.871851",
   "model_name": "doc2vec_recommender"
 }

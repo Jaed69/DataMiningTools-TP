@@ -6,36 +6,41 @@
   },
   "recommenders": {
     "TF-IDF": {
-      "training_time": 2.755389451980591,
+      "training_time": 2.877084970474243,
       "available": true,
       "description": "Modelo basado en frecuencia de términos"
     },
+    "BM25": {
+      "training_time": 0.24079155921936035,
+      "available": true,
+      "description": "Okapi BM25 - Mejora de TF-IDF con normalización"
+    },
     "Doc2Vec": {
-      "training_time": 31.749691486358643,
+      "training_time": 28.036948204040527,
       "available": true,
       "description": "Embeddings de documentos con redes neuronales"
     },
     "SBERT": {
-      "training_time": 51.108484983444214,
+      "training_time": 3.3278377056121826,
       "available": true,
       "description": "Transformers pre-entrenados (estado del arte)"
     }
   },
   "classifiers": {
     "Logistic": {
-      "training_time": 2.3633310794830322,
+      "training_time": 2.56246280670166,
       "available": true,
       "n_classes": 42,
       "description": "Regresión Logística multietiqueta"
     },
     "NaiveBayes": {
-      "training_time": 1.1330654621124268,
+      "training_time": 1.351867437362671,
       "available": true,
       "n_classes": 42,
       "description": "Naive Bayes Multinomial"
     },
     "RandomForest": {
-      "training_time": 14.100491762161255,
+      "training_time": 15.125041484832764,
       "available": true,
       "n_classes": 42,
       "description": "Ensemble de árboles de decisión"
@@ -72,37 +77,37 @@
               "TV Action & Adventure, TV Mysteries, TV Sci-Fi & Fantasy"
             ]
           ],
-          "inference_time_ms": 2.657175064086914
+          "inference_time_ms": 0.0
         },
         "Doc2Vec": {
           "recommendations": [
             [
               "Power Rangers Super Samurai",
-              0.8952475786209106,
+              0.9056921601295471,
               "Kids' TV"
             ],
             [
-              "Bureau of Magical Things",
-              0.8827530145645142,
-              "International TV Shows, Kids' TV, TV Mysteries"
-            ],
-            [
-              "Hemlock Grove",
-              0.8735206723213196,
-              "TV Horror, TV Mysteries, TV Thrillers"
-            ],
-            [
               "Glitter Force",
-              0.8603798151016235,
+              0.8773899674415588,
               "Anime Series, Kids' TV"
             ],
             [
-              "The Witch Files",
-              0.8536489009857178,
-              "Horror Movies, Thrillers"
+              "Jonathan",
+              0.8724159002304077,
+              "Dramas, Independent Movies, Sci-Fi & Fantasy"
+            ],
+            [
+              "Bottersnikes & Gumbles",
+              0.8689804673194885,
+              "British TV Shows, Kids' TV"
+            ],
+            [
+              "ParaNorman",
+              0.8627882599830627,
+              "Children & Family Movies, Comedies"
             ]
           ],
-          "inference_time_ms": 16.762971878051758
+          "inference_time_ms": 15.046119689941406
         },
         "SBERT": {
           "recommendations": [
@@ -132,7 +137,7 @@
               "Crime TV Shows, International TV Shows, TV Dramas"
             ]
           ],
-          "inference_time_ms": 11.005878448486328
+          "inference_time_ms": 5.387783050537109
         }
       },
       "Breaking Bad": {
@@ -164,37 +169,37 @@
               "International TV Shows, TV Dramas, TV Thrillers"
             ]
           ],
-          "inference_time_ms": 8.741378784179688
+          "inference_time_ms": 7.154226303100586
         },
         "Doc2Vec": {
           "recommendations": [
             [
-              "On My Skin",
-              0.8136134147644043,
-              "Dramas, International Movies"
-            ],
-            [
-              "Herrens veje",
-              0.800663411617279,
-              "International TV Shows, TV Dramas"
-            ],
-            [
               "The Umbrella Academy",
-              0.7959890365600586,
+              0.8516739010810852,
               "TV Action & Adventure, TV Mysteries, TV Sci-Fi & Fantasy"
             ],
             [
               "Thambi",
-              0.7853381037712097,
+              0.8299795389175415,
               "International Movies, Thrillers"
             ],
             [
-              "The Club",
-              0.7796382904052734,
-              "Crime TV Shows, International TV Shows, Spanish-Language TV Shows"
+              "On My Skin",
+              0.8268916010856628,
+              "Dramas, International Movies"
+            ],
+            [
+              "Riverdale",
+              0.8254929184913635,
+              "Crime TV Shows, TV Dramas, TV Mysteries"
+            ],
+            [
+              "Nightmare High",
+              0.821407675743103,
+              "International TV Shows, Korean TV Shows, TV Dramas"
             ]
           ],
-          "inference_time_ms": 13.62919807434082
+          "inference_time_ms": 6.810903549194336
         },
         "SBERT": {
           "recommendations": [
@@ -224,7 +229,7 @@
               "International TV Shows, TV Dramas, TV Mysteries"
             ]
           ],
-          "inference_time_ms": 6.592750549316406
+          "inference_time_ms": 5.715131759643555
         }
       },
       "The Crown": {
@@ -256,37 +261,37 @@
               "Docuseries, TV Dramas"
             ]
           ],
-          "inference_time_ms": 5.93113899230957
+          "inference_time_ms": 9.012222290039062
         },
         "Doc2Vec": {
           "recommendations": [
             [
-              "Reign",
-              0.6933590173721313,
-              "TV Dramas"
-            ],
-            [
-              "The Last Czars",
-              0.6582087278366089,
-              "Docuseries, TV Dramas"
+              "Notes on Blindness",
+              0.7187104821205139,
+              "Documentaries, Dramas, International Movies"
             ],
             [
               "Shaka Zulu",
-              0.6527717709541321,
+              0.6915006637573242,
               "TV Dramas"
             ],
             [
-              "The Road to Calvary",
-              0.642383337020874,
-              "International TV Shows, TV Dramas"
+              "The Seventies",
+              0.6840301156044006,
+              "Docuseries"
             ],
             [
-              "Hating Peter Tatchell",
-              0.6404808163642883,
-              "Documentaries, International Movies, LGBTQ Movies"
+              "The Eichmann Show",
+              0.6787529587745667,
+              "Dramas, International Movies"
+            ],
+            [
+              "Reign",
+              0.6765831112861633,
+              "TV Dramas"
             ]
           ],
-          "inference_time_ms": 8.76927375793457
+          "inference_time_ms": 5.088090896606445
         },
         "SBERT": {
           "recommendations": [
@@ -316,7 +321,7 @@
               "British TV Shows, International TV Shows, TV Dramas"
             ]
           ],
-          "inference_time_ms": 6.003618240356445
+          "inference_time_ms": 8.022308349609375
         }
       },
       "Black Mirror": {
@@ -348,37 +353,37 @@
               "British TV Shows, Docuseries, Science & Nature TV"
             ]
           ],
-          "inference_time_ms": 10.149717330932617
+          "inference_time_ms": 5.21087646484375
         },
         "Doc2Vec": {
           "recommendations": [
             [
               "The Seven Deadly Sins the Movie: Prisoners of the Sky",
-              0.7872985601425171,
+              0.7619753479957581,
               "Action & Adventure, Anime Features, International Movies"
             ],
             [
-              "Warrior",
-              0.7561530470848083,
-              "Crime TV Shows, International TV Shows, TV Dramas"
+              "Five Came Back",
+              0.7478517889976501,
+              "Docuseries"
             ],
             [
-              "Knights of Sidonia",
-              0.754139244556427,
-              "Anime Series, International TV Shows"
+              "Til Death Do Us Part",
+              0.7440360188484192,
+              "International TV Shows, TV Dramas, TV Thrillers"
             ],
             [
-              "Tremors: Shrieker Island",
-              0.7529648542404175,
-              "Action & Adventure, Horror Movies"
+              "The Jaime Maussan Show",
+              0.7357601523399353,
+              "Docuseries, International TV Shows, Spanish-Language TV Shows"
             ],
             [
-              "2036 Origin Unknown",
-              0.75288325548172,
-              "Sci-Fi & Fantasy"
+              "Deep Undercover Collection",
+              0.7334890365600586,
+              "Crime TV Shows, Docuseries"
             ]
           ],
-          "inference_time_ms": 7.587432861328125
+          "inference_time_ms": 7.394552230834961
         },
         "SBERT": {
           "recommendations": [
@@ -408,7 +413,7 @@
               "Crime TV Shows, TV Dramas"
             ]
           ],
-          "inference_time_ms": 6.4640045166015625
+          "inference_time_ms": 6.759881973266602
         }
       }
     },
@@ -448,5 +453,5 @@
       }
     }
   },
-  "generated_at": "2025-11-28T23:26:59.486949"
+  "generated_at": "2025-12-04T19:28:06.137227"
 }

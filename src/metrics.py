@@ -3,7 +3,7 @@ Módulo de evaluación y métricas para los modelos.
 Incluye métricas para recomendación y clasificación.
 """
 import numpy as np
-from typing import List, Dict, Set, Any, Tuple
+from typing import List, Dict, Set, Any, Tuple, Optional
 from sklearn.metrics import (
     f1_score, 
     precision_score, 
@@ -17,6 +17,7 @@ import time
 class RecommenderMetrics:
     """
     Métricas de evaluación para sistemas de recomendación.
+    Incluye Precision@K, Recall@K, nDCG@K, MAP, MRR, Diversity e ILS.
     """
     
     @staticmethod
@@ -134,6 +135,60 @@ class RecommenderMetrics:
         return actual_dcg / ideal_dcg if ideal_dcg > 0 else 0.0
     
     @staticmethod
+    def mrr(recommendations_list: List[List[str]], relevants_list: List[Set[str]]) -> float:
+        """
+        Mean Reciprocal Rank: Promedio del recíproco de la posición del primer item relevante.
+        
+        Args:
+            recommendations_list: Lista de listas de recomendaciones
+            relevants_list: Lista de conjuntos de items relevantes
+            
+        Returns:
+            MRR (0-1)
+        """
+        reciprocal_ranks = []
+        
+        for recs, rels in zip(recommendations_list, relevants_list):
+            for i, item in enumerate(recs, 1):
+                if item in rels:
+                    reciprocal_ranks.append(1.0 / i)
+                    break
+            else:
+                reciprocal_ranks.append(0.0)
+        
+        return np.mean(reciprocal_ranks) if reciprocal_ranks else 0.0
+    
+    @staticmethod
+    def intra_list_similarity(
+        recommendations: List[str], 
+        similarity_matrix: np.ndarray,
+        title_to_idx: Dict[str, int]
+    ) -> float:
+        """
+        Intra-List Similarity (ILS): Mide la similitud promedio entre items recomendados.
+        Menor ILS = Mayor diversidad.
+        
+        Args:
+            recommendations: Lista de títulos recomendados
+            similarity_matrix: Matriz de similitud entre todos los items
+            title_to_idx: Mapeo de título a índice
+            
+        Returns:
+            ILS (0-1), donde menor es más diverso
+        """
+        indices = [title_to_idx.get(r) for r in recommendations if r in title_to_idx]
+        
+        if len(indices) < 2:
+            return 0.0
+        
+        similarities = []
+        for i in range(len(indices)):
+            for j in range(i + 1, len(indices)):
+                similarities.append(similarity_matrix[indices[i], indices[j]])
+        
+        return float(np.mean(similarities)) if similarities else 0.0
+    
+    @staticmethod
     def diversity(
         recommendations: List[List[str]], 
         similarity_matrix: np.ndarray,
@@ -149,19 +204,33 @@ class RecommenderMetrics:
         all_diversities = []
         
         for recs in recommendations:
-            indices = [title_to_idx.get(r) for r in recs if r in title_to_idx]
-            if len(indices) < 2:
-                continue
-            
-            similarities = []
-            for i in range(len(indices)):
-                for j in range(i + 1, len(indices)):
-                    similarities.append(similarity_matrix[indices[i], indices[j]])
-            
-            if similarities:
-                all_diversities.append(1 - np.mean(similarities))
+            ils = RecommenderMetrics.intra_list_similarity(recs, similarity_matrix, title_to_idx)
+            all_diversities.append(1 - ils)
         
         return np.mean(all_diversities) if all_diversities else 0.0
+    
+    @staticmethod
+    def genre_diversity(recommendations: List[str], title_to_genres: Dict[str, List[str]]) -> float:
+        """
+        Diversidad de géneros: Proporción de géneros únicos en las recomendaciones.
+        
+        Args:
+            recommendations: Lista de títulos recomendados
+            title_to_genres: Mapeo de título a lista de géneros
+            
+        Returns:
+            Género diversity score (0-1)
+        """
+        all_genres = set()
+        total_genres = 0
+        
+        for title in recommendations:
+            genres = title_to_genres.get(title, [])
+            all_genres.update(genres)
+            total_genres += len(genres)
+        
+        # Ratio de géneros únicos sobre total
+        return len(all_genres) / total_genres if total_genres > 0 else 0.0
     
     @staticmethod
     def coverage(
@@ -179,6 +248,54 @@ class RecommenderMetrics:
             unique_items.update(recs)
         
         return len(unique_items) / catalog_size if catalog_size > 0 else 0.0
+    
+    @staticmethod
+    def hit_rate(recommendations_list: List[List[str]], relevants_list: List[Set[str]], k: int) -> float:
+        """
+        Hit Rate @K: Proporción de usuarios con al menos un item relevante en top-k.
+        
+        Returns:
+            Hit Rate (0-1)
+        """
+        hits = 0
+        for recs, rels in zip(recommendations_list, relevants_list):
+            if set(recs[:k]).intersection(rels):
+                hits += 1
+        
+        return hits / len(recommendations_list) if recommendations_list else 0.0
+    
+    @staticmethod
+    def evaluate_all(
+        recommendations: List[str],
+        relevant: Set[str],
+        k: int = 10,
+        similarity_matrix: Optional[np.ndarray] = None,
+        title_to_idx: Optional[Dict[str, int]] = None,
+        title_to_genres: Optional[Dict[str, List[str]]] = None
+    ) -> Dict[str, float]:
+        """
+        Calcula todas las métricas para una lista de recomendaciones.
+        
+        Returns:
+            Diccionario con todas las métricas
+        """
+        metrics = {
+            "precision_at_k": RecommenderMetrics.precision_at_k(recommendations, relevant, k),
+            "recall_at_k": RecommenderMetrics.recall_at_k(recommendations, relevant, k),
+            "ndcg_at_k": RecommenderMetrics.ndcg_at_k(recommendations, relevant, k),
+            "average_precision": RecommenderMetrics.average_precision(recommendations, relevant),
+        }
+        
+        if similarity_matrix is not None and title_to_idx is not None:
+            metrics["intra_list_similarity"] = RecommenderMetrics.intra_list_similarity(
+                recommendations, similarity_matrix, title_to_idx
+            )
+            metrics["diversity"] = 1 - metrics["intra_list_similarity"]
+        
+        if title_to_genres is not None:
+            metrics["genre_diversity"] = RecommenderMetrics.genre_diversity(recommendations, title_to_genres)
+        
+        return metrics
 
 
 class ClassifierMetrics:

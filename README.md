@@ -23,8 +23,20 @@ Sistema de recomendación basado en contenido para el catálogo de Netflix que i
 
 ### 🎯 Recomendación Multi-Modelo
 - **TF-IDF**: Modelo clásico basado en frecuencia de términos
+- **BM25**: Mejora de TF-IDF con normalización por longitud de documento (Okapi BM25)
 - **Doc2Vec**: Embeddings de documentos para captura semántica
 - **SBERT**: Sentence Transformers - Estado del arte en similitud semántica
+- **Cross-Encoder**: Reranking de alta precisión para mejorar top-K
+
+### 🔎 Búsqueda Semántica
+- Búsqueda por lenguaje natural ("películas sobre supervivencia")
+- Entiende sinónimos y conceptos relacionados
+- Powered by Sentence-BERT
+
+### 🎨 Clustering y Visualización
+- Agrupación automática de películas con K-Means y HDBSCAN
+- Visualización 2D/3D con UMAP y t-SNE
+- Descubrimiento de grupos temáticos
 
 ### 🏷️ Clasificación de Géneros
 - **Logistic Regression**: Clasificador rápido y preciso
@@ -155,9 +167,11 @@ La aplicación estará disponible en: `http://localhost:8501`
 
 | Modelo | Dependencia | Descripción | Velocidad | Precisión |
 |--------|-------------|-------------|-----------|-----------|
-| **TF-IDF** | ✅ Incluido | Frecuencia de términos + Coseno | ⚡ Rápido | ⭐⭐⭐ |
+| **TF-IDF** | ✅ Incluido | Frecuencia de términos + Coseno | ⚡ Muy Rápido | ⭐⭐⭐ |
+| **BM25** | `rank-bm25` | Okapi BM25 con normalización | ⚡ Rápido | ⭐⭐⭐⭐ |
 | **Doc2Vec** | `gensim` | Embeddings de documentos | 🔄 Medio | ⭐⭐⭐⭐ |
 | **SBERT** | `sentence-transformers` | Transformers pre-entrenados | 🐢 Lento (primera vez) | ⭐⭐⭐⭐⭐ |
+| **Cross-Encoder** | `sentence-transformers` | Reranking de alta precisión | 🐢 Lento | ⭐⭐⭐⭐⭐ |
 
 ### Clasificadores
 
@@ -233,12 +247,14 @@ La aplicación estará disponible en: `http://localhost:8501`
 | Tab | Descripción |
 |-----|-------------|
 | 🎬 **Recomendador** | Obtén 5 títulos similares con cualquier algoritmo |
-| 💡 **Explicación** | Entiende POR QUÉ cada algoritmo recomienda diferente |
+| � **Explicación** | Entiende POR QUÉ cada algoritmo recomienda diferente |
+| 🔎 **Búsqueda Semántica** | Busca películas describiendo lo que quieres ver |
 | 🏷️ **Clasificador** | Predice géneros para nuevas descripciones |
 | 📈 **Evaluación** | Compara métricas cuantitativas de todos los modelos |
+| 🎨 **Clustering** | Visualiza agrupaciones de películas con UMAP/t-SNE |
 | ⚡ **Benchmark** | Tiempos de entrenamiento e inferencia |
-| 🤔 **¿Cómo Funciona?** | Explicación técnica de cada algoritmo |
-| 📊 **Métricas** | Precision@K, Recall@K, F1-Score detallados |
+| 📖 **¿Cómo Funciona?** | Explicación técnica de cada algoritmo |
+| 📊 **Métricas** | Precision@K, Recall@K, nDCG, MAP detallados |
 
 ## 📊 Métricas de Evaluación
 
@@ -246,8 +262,10 @@ La aplicación estará disponible en: `http://localhost:8501`
 
 - **Precision@K**: Proporción de items relevantes en top-K
 - **Recall@K**: Proporción de relevantes encontrados
-- **NDCG**: Normalized Discounted Cumulative Gain
+- **nDCG**: Normalized Discounted Cumulative Gain (considera posición)
 - **MAP**: Mean Average Precision
+- **MRR**: Mean Reciprocal Rank
+- **ILS**: Intra-List Similarity (diversidad)
 - **Coverage**: Proporción del catálogo recomendado
 
 ### Para Clasificación

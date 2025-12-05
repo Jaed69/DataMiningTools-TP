@@ -37,6 +37,12 @@ if GENSIM_AVAILABLE:
 if SBERT_AVAILABLE:
     from src.models import SBERTRecommender
 
+# Intentar importar BM25
+try:
+    from src.models import BM25Recommender, BM25_AVAILABLE
+except ImportError:
+    BM25_AVAILABLE = False
+
 
 CSV_PATH = os.path.join("data", "netflix_titles.csv")
 
@@ -89,7 +95,7 @@ def train_and_save_all():
     print_header("🎯 Entrenando Modelos de Recomendación")
     
     # 1. TF-IDF (siempre disponible)
-    print("\n[1/3] TF-IDF Recommender...")
+    print("\n[1/4] TF-IDF Recommender...")
     tfidf_rec = TFIDFRecommender()
     start = time.time()
     tfidf_rec.fit(texts, titles, data)
@@ -108,9 +114,36 @@ def train_and_save_all():
     }
     print(f"   ✅ Entrenado en {tfidf_time:.2f}s")
     
-    # 2. Doc2Vec (opcional)
+    # 2. BM25 (opcional)
+    if BM25_AVAILABLE:
+        print("\n[2/4] BM25 Recommender...")
+        bm25_rec = BM25Recommender()
+        start = time.time()
+        bm25_rec.fit(texts, titles, data)
+        bm25_time = time.time() - start
+        
+        save_model(bm25_rec, "bm25_recommender", {
+            "training_time": bm25_time,
+            "type": "recommender",
+            "algorithm": "BM25",
+            "n_documents": len(titles)
+        })
+        benchmark["recommenders"]["BM25"] = {
+            "training_time": bm25_time,
+            "available": True,
+            "description": "Okapi BM25 - Mejora de TF-IDF con normalización"
+        }
+        print(f"   ✅ Entrenado en {bm25_time:.2f}s")
+    else:
+        print("\n[2/4] BM25 - ⚠️ No disponible (instalar rank-bm25)")
+        benchmark["recommenders"]["BM25"] = {
+            "available": False,
+            "description": "Requiere: pip install rank-bm25"
+        }
+    
+    # 3. Doc2Vec (opcional)
     if GENSIM_AVAILABLE:
-        print("\n[2/3] Doc2Vec Recommender...")
+        print("\n[3/4] Doc2Vec Recommender...")
         doc2vec_rec = Doc2VecRecommender()
         start = time.time()
         doc2vec_rec.fit(texts, titles, data)
@@ -129,15 +162,15 @@ def train_and_save_all():
         }
         print(f"   ✅ Entrenado en {doc2vec_time:.2f}s")
     else:
-        print("\n[2/3] Doc2Vec - ⚠️ No disponible (instalar gensim)")
+        print("\n[3/4] Doc2Vec - ⚠️ No disponible (instalar gensim)")
         benchmark["recommenders"]["Doc2Vec"] = {
             "available": False,
             "description": "Requiere: pip install gensim"
         }
     
-    # 3. SBERT (opcional)
+    # 4. SBERT (opcional)
     if SBERT_AVAILABLE:
-        print("\n[3/3] SBERT Recommender...")
+        print("\n[4/4] SBERT Recommender...")
         sbert_rec = SBERTRecommender()
         start = time.time()
         sbert_rec.fit(texts, titles, data)
@@ -157,7 +190,7 @@ def train_and_save_all():
         }
         print(f"   ✅ Entrenado en {sbert_time:.2f}s")
     else:
-        print("\n[3/3] SBERT - ⚠️ No disponible (instalar sentence-transformers)")
+        print("\n[4/4] SBERT - ⚠️ No disponible (instalar sentence-transformers)")
         benchmark["recommenders"]["SBERT"] = {
             "available": False,
             "description": "Requiere: pip install sentence-transformers"
