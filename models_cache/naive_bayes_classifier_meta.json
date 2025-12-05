@@ -1,0 +1,9 @@
+{
+  "training_time": 1.351867437362671,
+  "type": "classifier",
+  "algorithm": "NaiveBayes",
+  "n_samples": 8807,
+  "n_classes": 42,
+  "saved_at": "2025-12-04T19:27:43.233234",
+  "model_name": "naive_bayes_classifier"
+}

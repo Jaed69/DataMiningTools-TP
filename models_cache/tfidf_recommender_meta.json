@@ -1,0 +1,8 @@
+{
+  "training_time": 2.877084970474243,
+  "type": "recommender",
+  "algorithm": "TF-IDF",
+  "n_documents": 8807,
+  "saved_at": "2025-12-04T19:27:01.788270",
+  "model_name": "tfidf_recommender"
+}

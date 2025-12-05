@@ -1,0 +1,457 @@
+{
+  "dataset_info": {
+    "total_titles": 8807,
+    "unique_genres": 42,
+    "avg_description_length": 197.79754740547293
+  },
+  "recommenders": {
+    "TF-IDF": {
+      "training_time": 2.877084970474243,
+      "available": true,
+      "description": "Modelo basado en frecuencia de términos"
+    },
+    "BM25": {
+      "training_time": 0.24079155921936035,
+      "available": true,
+      "description": "Okapi BM25 - Mejora de TF-IDF con normalización"
+    },
+    "Doc2Vec": {
+      "training_time": 28.036948204040527,
+      "available": true,
+      "description": "Embeddings de documentos con redes neuronales"
+    },
+    "SBERT": {
+      "training_time": 3.3278377056121826,
+      "available": true,
+      "description": "Transformers pre-entrenados (estado del arte)"
+    }
+  },
+  "classifiers": {
+    "Logistic": {
+      "training_time": 2.56246280670166,
+      "available": true,
+      "n_classes": 42,
+      "description": "Regresión Logística multietiqueta"
+    },
+    "NaiveBayes": {
+      "training_time": 1.351867437362671,
+      "available": true,
+      "n_classes": 42,
+      "description": "Naive Bayes Multinomial"
+    },
+    "RandomForest": {
+      "training_time": 15.125041484832764,
+      "available": true,
+      "n_classes": 42,
+      "description": "Ensemble de árboles de decisión"
+    }
+  },
+  "examples": {
+    "recommendations": {
+      "Stranger Things": {
+        "TF-IDF": {
+          "recommendations": [
+            [
+              "Nightflyers",
+              0.4619442475126071,
+              "TV Horror, TV Mysteries, TV Sci-Fi & Fantasy"
+            ],
+            [
+              "Hemlock Grove",
+              0.37725338021574184,
+              "TV Horror, TV Mysteries, TV Thrillers"
+            ],
+            [
+              "Helix",
+              0.37576687536676046,
+              "TV Horror, TV Mysteries, TV Sci-Fi & Fantasy"
+            ],
+            [
+              "Chilling Adventures of Sabrina",
+              0.3716253430095644,
+              "TV Horror, TV Mysteries, TV Sci-Fi & Fantasy"
+            ],
+            [
+              "Warrior Nun",
+              0.35714601326904,
+              "TV Action & Adventure, TV Mysteries, TV Sci-Fi & Fantasy"
+            ]
+          ],
+          "inference_time_ms": 0.0
+        },
+        "Doc2Vec": {
+          "recommendations": [
+            [
+              "Power Rangers Super Samurai",
+              0.9056921601295471,
+              "Kids' TV"
+            ],
+            [
+              "Glitter Force",
+              0.8773899674415588,
+              "Anime Series, Kids' TV"
+            ],
+            [
+              "Jonathan",
+              0.8724159002304077,
+              "Dramas, Independent Movies, Sci-Fi & Fantasy"
+            ],
+            [
+              "Bottersnikes & Gumbles",
+              0.8689804673194885,
+              "British TV Shows, Kids' TV"
+            ],
+            [
+              "ParaNorman",
+              0.8627882599830627,
+              "Children & Family Movies, Comedies"
+            ]
+          ],
+          "inference_time_ms": 15.046119689941406
+        },
+        "SBERT": {
+          "recommendations": [
+            [
+              "Warrior Nun",
+              0.5865987539291382,
+              "TV Action & Adventure, TV Mysteries, TV Sci-Fi & Fantasy"
+            ],
+            [
+              "A Babysitter's Guide to Monster Hunting",
+              0.58330237865448,
+              "Children & Family Movies"
+            ],
+            [
+              "American Horror Story",
+              0.5606640577316284,
+              "TV Horror, TV Mysteries, TV Thrillers"
+            ],
+            [
+              "The OA",
+              0.5566744804382324,
+              "TV Dramas, TV Mysteries, TV Sci-Fi & Fantasy"
+            ],
+            [
+              "Mortel",
+              0.5557900071144104,
+              "Crime TV Shows, International TV Shows, TV Dramas"
+            ]
+          ],
+          "inference_time_ms": 5.387783050537109
+        }
+      },
+      "Breaking Bad": {
+        "TF-IDF": {
+          "recommendations": [
+            [
+              "Dare Me",
+              0.3832475882832792,
+              "Crime TV Shows, TV Dramas, TV Thrillers"
+            ],
+            [
+              "The Lizzie Borden Chronicles",
+              0.320099889834347,
+              "Crime TV Shows, TV Dramas, TV Thrillers"
+            ],
+            [
+              "Ozark",
+              0.2931747798145606,
+              "Crime TV Shows, TV Dramas, TV Thrillers"
+            ],
+            [
+              "Occupied",
+              0.29247553785397773,
+              "International TV Shows, TV Dramas, TV Thrillers"
+            ],
+            [
+              "Kakegurui",
+              0.29160532942822953,
+              "International TV Shows, TV Dramas, TV Thrillers"
+            ]
+          ],
+          "inference_time_ms": 7.154226303100586
+        },
+        "Doc2Vec": {
+          "recommendations": [
+            [
+              "The Umbrella Academy",
+              0.8516739010810852,
+              "TV Action & Adventure, TV Mysteries, TV Sci-Fi & Fantasy"
+            ],
+            [
+              "Thambi",
+              0.8299795389175415,
+              "International Movies, Thrillers"
+            ],
+            [
+              "On My Skin",
+              0.8268916010856628,
+              "Dramas, International Movies"
+            ],
+            [
+              "Riverdale",
+              0.8254929184913635,
+              "Crime TV Shows, TV Dramas, TV Mysteries"
+            ],
+            [
+              "Nightmare High",
+              0.821407675743103,
+              "International TV Shows, Korean TV Shows, TV Dramas"
+            ]
+          ],
+          "inference_time_ms": 6.810903549194336
+        },
+        "SBERT": {
+          "recommendations": [
+            [
+              "The Pharmacist",
+              0.5374441742897034,
+              "Crime TV Shows, Docuseries"
+            ],
+            [
+              "Mortel",
+              0.5369727611541748,
+              "Crime TV Shows, International TV Shows, TV Dramas"
+            ],
+            [
+              "Aashayein",
+              0.5306712985038757,
+              "Dramas, International Movies"
+            ],
+            [
+              "True to the Game",
+              0.5273500084877014,
+              "Dramas"
+            ],
+            [
+              "Open Your Eyes",
+              0.52008056640625,
+              "International TV Shows, TV Dramas, TV Mysteries"
+            ]
+          ],
+          "inference_time_ms": 5.715131759643555
+        }
+      },
+      "The Crown": {
+        "TF-IDF": {
+          "recommendations": [
+            [
+              "La Révolution",
+              0.3032782712366054,
+              "International TV Shows, TV Action & Adventure, TV Dramas"
+            ],
+            [
+              "The A List",
+              0.30215670841776043,
+              "British TV Shows, International TV Shows, TV Dramas"
+            ],
+            [
+              "Witches: A Century of Murder",
+              0.29219104261788564,
+              "British TV Shows, Crime TV Shows, Docuseries"
+            ],
+            [
+              "Mahmut & Meryem",
+              0.2763102756820822,
+              "International TV Shows, Romantic TV Shows, TV Dramas"
+            ],
+            [
+              "The Last Czars",
+              0.274736494440201,
+              "Docuseries, TV Dramas"
+            ]
+          ],
+          "inference_time_ms": 9.012222290039062
+        },
+        "Doc2Vec": {
+          "recommendations": [
+            [
+              "Notes on Blindness",
+              0.7187104821205139,
+              "Documentaries, Dramas, International Movies"
+            ],
+            [
+              "Shaka Zulu",
+              0.6915006637573242,
+              "TV Dramas"
+            ],
+            [
+              "The Seventies",
+              0.6840301156044006,
+              "Docuseries"
+            ],
+            [
+              "The Eichmann Show",
+              0.6787529587745667,
+              "Dramas, International Movies"
+            ],
+            [
+              "Reign",
+              0.6765831112861633,
+              "TV Dramas"
+            ]
+          ],
+          "inference_time_ms": 5.088090896606445
+        },
+        "SBERT": {
+          "recommendations": [
+            [
+              "Reign",
+              0.611270546913147,
+              "TV Dramas"
+            ],
+            [
+              "The Royal House of Windsor",
+              0.5808777809143066,
+              "British TV Shows, Docuseries, International TV Shows"
+            ],
+            [
+              "Churchill’s Secret Agents: The New Recruits",
+              0.5373388528823853,
+              "British TV Shows, International TV Shows, Reality TV"
+            ],
+            [
+              "Downton Abbey",
+              0.5246477723121643,
+              "British TV Shows, International TV Shows, TV Dramas"
+            ],
+            [
+              "Call the Midwife",
+              0.517534613609314,
+              "British TV Shows, International TV Shows, TV Dramas"
+            ]
+          ],
+          "inference_time_ms": 8.022308349609375
+        }
+      },
+      "Black Mirror": {
+        "TF-IDF": {
+          "recommendations": [
+            [
+              "Holiday Secrets",
+              0.29102357990831695,
+              "International TV Shows, TV Dramas"
+            ],
+            [
+              "American Crime Story: The People v. O.J. Simpson",
+              0.2850473670706827,
+              "Crime TV Shows, TV Dramas"
+            ],
+            [
+              "The A List",
+              0.28098089068822607,
+              "British TV Shows, International TV Shows, TV Dramas"
+            ],
+            [
+              "Creeped Out",
+              0.2705846634802719,
+              "British TV Shows, Kids' TV, TV Thrillers"
+            ],
+            [
+              "City in the Sky",
+              0.2665767469117518,
+              "British TV Shows, Docuseries, Science & Nature TV"
+            ]
+          ],
+          "inference_time_ms": 5.21087646484375
+        },
+        "Doc2Vec": {
+          "recommendations": [
+            [
+              "The Seven Deadly Sins the Movie: Prisoners of the Sky",
+              0.7619753479957581,
+              "Action & Adventure, Anime Features, International Movies"
+            ],
+            [
+              "Five Came Back",
+              0.7478517889976501,
+              "Docuseries"
+            ],
+            [
+              "Til Death Do Us Part",
+              0.7440360188484192,
+              "International TV Shows, TV Dramas, TV Thrillers"
+            ],
+            [
+              "The Jaime Maussan Show",
+              0.7357601523399353,
+              "Docuseries, International TV Shows, Spanish-Language TV Shows"
+            ],
+            [
+              "Deep Undercover Collection",
+              0.7334890365600586,
+              "Crime TV Shows, Docuseries"
+            ]
+          ],
+          "inference_time_ms": 7.394552230834961
+        },
+        "SBERT": {
+          "recommendations": [
+            [
+              "Downton Abbey",
+              0.5290465950965881,
+              "British TV Shows, International TV Shows, TV Dramas"
+            ],
+            [
+              "Creeped Out",
+              0.5258343815803528,
+              "British TV Shows, Kids' TV, TV Thrillers"
+            ],
+            [
+              "Doomsday Preppers",
+              0.5245311856269836,
+              "Reality TV, Science & Nature TV"
+            ],
+            [
+              "American Horror Story",
+              0.5209324359893799,
+              "TV Horror, TV Mysteries, TV Thrillers"
+            ],
+            [
+              "American Crime Story: The People v. O.J. Simpson",
+              0.5123481154441833,
+              "Crime TV Shows, TV Dramas"
+            ]
+          ],
+          "inference_time_ms": 6.759881973266602
+        }
+      }
+    },
+    "classifications": {
+      "example_1": {
+        "synopsis": "A group of friends discover a dark secret in their small town that leads them on a supernatural adventure.",
+        "expected": "Thriller, Drama",
+        "predictions": {
+          "Logistic": {
+            "Action & Adventure": 0.12786666077632522,
+            "Dramas": 0.06855980839031199,
+            "International Movies": 0.05869234303291668
+          }
+        }
+      },
+      "example_2": {
+        "synopsis": "A romantic comedy about two strangers who meet on a plane and fall in love during a layover in Paris.",
+        "expected": "Comedy, Romance",
+        "predictions": {
+          "Logistic": {
+            "Comedies": 0.4788071340863929,
+            "Romantic Movies": 0.34325155091557324,
+            "Dramas": 0.09995318815552769
+          }
+        }
+      },
+      "example_3": {
+        "synopsis": "Documentary exploring the effects of climate change on polar bear populations in the Arctic.",
+        "expected": "Documentary",
+        "predictions": {
+          "Logistic": {
+            "Documentaries": 0.4612092179823973,
+            "International Movies": 0.06435472189201182,
+            "Dramas": 0.04190471827123598
+          }
+        }
+      }
+    }
+  },
+  "generated_at": "2025-12-04T19:28:06.137227"
+}

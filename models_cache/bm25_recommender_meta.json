@@ -1,0 +1,8 @@
+{
+  "training_time": 0.24079155921936035,
+  "type": "recommender",
+  "algorithm": "BM25",
+  "n_documents": 8807,
+  "saved_at": "2025-12-04T19:27:02.182968",
+  "model_name": "bm25_recommender"
+}
